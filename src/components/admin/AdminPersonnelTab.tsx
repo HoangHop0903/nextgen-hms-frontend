@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { UserCog, Plus, Trash2, Edit, UserSquare2, BriefcaseMedical } from "lucide-react";
+import { UserCog, Plus, Trash2, Edit, UserSquare2, BriefcaseMedical, CheckCircle2 } from "lucide-react";
 
 export function AdminPersonnelTab({ token }: { token: string }) {
   const [doctors, setDoctors] = useState<any[]>([]);

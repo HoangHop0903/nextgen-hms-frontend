@@ -53,8 +53,8 @@ export function AdminStatsTab({ token }: { token: string }) {
   ];
 
   // Real data from backend
-  const monthlyData = stats.monthly_data || [];
-  const pieData = stats.pie_data || [];
+  const monthlyData: any[] = stats.monthly_data || [];
+  const pieData: any[] = stats.pie_data || [];
   const COLORS = ['#6366f1', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#f43f5e', '#f97316'];
 
   return (
