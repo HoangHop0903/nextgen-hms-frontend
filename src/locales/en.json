@@ -1,0 +1,41 @@
+{
+  "home": {
+    "hero_title_1": "Search for doctors, hospitals, clinics,",
+    "hero_title_2": "medical services, and book appointments",
+    "search_placeholder": "Find specialties, doctors...",
+    "no_results": "No results found for",
+    "ai_products": "AI-powered products",
+    "ai_assistant": "AI Booking Assistant",
+    "ai_assistant_desc": "Find information about doctors, clinics, and book appointments",
+    "ai_search": "In-depth Search",
+    "ai_search_desc": "Advanced search and consultation for doctors and medical facilities",
+    "ai_beauty": "Beauty Assistant",
+    "ai_beauty_desc": "Find reputable addresses and cosmetic surgeons",
+    "ai_treatment": "Treatment Assistant",
+    "ai_treatment_desc": "Find doctors, services, and facilities specializing in treatment",
+    "comprehensive_services": "Comprehensive Services",
+    "serv_specialty": "Specialist Visit",
+    "serv_remote": "Telemedicine",
+    "serv_general": "General Checkup",
+    "serv_test": "Medical Testing",
+    "serv_mental": "Mental Health",
+    "serv_dental": "Dental Care",
+    "serv_surgery": "Surgery Packages",
+    "serv_product": "Medical Products",
+    "serv_health_test": "Health Tests"
+  },
+  "nav": {
+    "specialty": "Specialties",
+    "hospital": "Hospitals",
+    "doctor": "Doctors",
+    "package": "Packages",
+    "login": "Register / Login",
+    "back_home": "Back to Home",
+    "no_doctor": "No doctors available"
+  },
+  "common": {
+    "success": "Success!",
+    "success_booking": "Payment & Booking successful! An account has been created for you automatically. Username is your phone number, default password is 123456.",
+    "dev_feature": "Feature under development"
+  }
+}

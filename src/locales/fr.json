@@ -1,0 +1,41 @@
+{
+  "home": {
+    "hero_title_1": "Recherchez des médecins, hôpitaux, cliniques,",
+    "hero_title_2": "services médicaux et prenez rendez-vous",
+    "search_placeholder": "Rechercher des spécialités, médecins...",
+    "no_results": "Aucun résultat trouvé pour",
+    "ai_products": "Produits alimentés par l'IA",
+    "ai_assistant": "Assistant de réservation IA",
+    "ai_assistant_desc": "Trouvez des informations sur les médecins, les cliniques et prenez rendez-vous",
+    "ai_search": "Recherche approfondie",
+    "ai_search_desc": "Outil de recherche et conseil approfondi pour les médecins et les établissements médicaux",
+    "ai_beauty": "Assistant beauté",
+    "ai_beauty_desc": "Trouvez des adresses réputées et des chirurgiens esthétiques",
+    "ai_treatment": "Assistant de traitement",
+    "ai_treatment_desc": "Trouvez des médecins, services et établissements spécialisés en traitement",
+    "comprehensive_services": "Services Complets",
+    "serv_specialty": "Visite Spécialiste",
+    "serv_remote": "Télémédecine",
+    "serv_general": "Bilan Général",
+    "serv_test": "Analyses Médicales",
+    "serv_mental": "Santé Mentale",
+    "serv_dental": "Soins Dentaires",
+    "serv_surgery": "Forfaits Chirurgie",
+    "serv_product": "Produits Médicaux",
+    "serv_health_test": "Tests de Santé"
+  },
+  "nav": {
+    "specialty": "Spécialités",
+    "hospital": "Hôpitaux",
+    "doctor": "Médecins",
+    "package": "Forfaits",
+    "login": "S'inscrire / Connexion",
+    "back_home": "Retour à l'accueil",
+    "no_doctor": "Aucun médecin disponible"
+  },
+  "common": {
+    "success": "Succès!",
+    "success_booking": "Paiement et réservation réussis! Un compte a été créé automatiquement pour vous. L'identifiant est votre numéro de téléphone, le mot de passe par défaut est 123456.",
+    "dev_feature": "Fonctionnalité en cours de développement"
+  }
+}

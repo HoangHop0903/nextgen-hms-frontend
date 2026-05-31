@@ -1,0 +1,41 @@
+{
+  "home": {
+    "hero_title_1": "Tìm kiếm bác sĩ, bệnh viện, phòng khám,",
+    "hero_title_2": "dịch vụ y tế và đặt lịch khám",
+    "search_placeholder": "Tìm chuyên khoa, bác sĩ...",
+    "no_results": "Không tìm thấy kết quả nào cho",
+    "ai_products": "Sản phẩm hỗ trợ bởi AI",
+    "ai_assistant": "Trợ lý AI đặt lịch",
+    "ai_assistant_desc": "Tìm kiếm thông tin bác sĩ, nơi khám và đặt lịch khám",
+    "ai_search": "Tìm kiếm chuyên sâu",
+    "ai_search_desc": "Công cụ tìm kiếm và tư vấn sâu về bác sĩ và cơ sở y tế",
+    "ai_beauty": "Trợ lý thẩm mỹ",
+    "ai_beauty_desc": "Tìm kiếm địa chỉ, bác sĩ thẩm mỹ uy tín",
+    "ai_treatment": "Trợ lý điều trị",
+    "ai_treatment_desc": "Tìm bác sĩ, dịch vụ, cơ sở chuyên về điều trị",
+    "comprehensive_services": "Dịch vụ toàn diện",
+    "serv_specialty": "Khám Chuyên khoa",
+    "serv_remote": "Khám từ xa",
+    "serv_general": "Khám tổng quát",
+    "serv_test": "Xét nghiệm y học",
+    "serv_mental": "Sức khỏe tinh thần",
+    "serv_dental": "Khám nha khoa",
+    "serv_surgery": "Gói Phẫu thuật",
+    "serv_product": "Sản phẩm Y tế",
+    "serv_health_test": "Bài test Sức khỏe"
+  },
+  "nav": {
+    "specialty": "Chuyên khoa",
+    "hospital": "Cơ sở y tế",
+    "doctor": "Bác sĩ",
+    "package": "Gói khám",
+    "login": "Đăng ký / Đăng nhập",
+    "back_home": "Trở về Trang Chủ",
+    "no_doctor": "Chưa có bác sĩ nào"
+  },
+  "common": {
+    "success": "Thành công!",
+    "success_booking": "Thanh toán & Đặt lịch thành công! Hệ thống đã tạo tự động 1 tài khoản cho bạn. Tên đăng nhập là SĐT của bạn, Mật khẩu mặc định là 123456.",
+    "dev_feature": "Tính năng đang phát triển"
+  }
+}
