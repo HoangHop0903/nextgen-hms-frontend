@@ -16,7 +16,7 @@ export function AdminStatsTab({ token }: { token: string }) {
 
   const fetchStats = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/v1/admin/stats", {
+      const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/stats", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setStats(res.data);
@@ -27,7 +27,7 @@ export function AdminStatsTab({ token }: { token: string }) {
 
   const fetchRecentBookings = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/v1/admin/bookings", {
+      const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/bookings", {
         headers: { Authorization: `Bearer ${token}` }
       });
       // Get the 5 most recent bookings for the activity feed

@@ -28,10 +28,10 @@ export function AdminPersonnelTab({ token }: { token: string }) {
 
   const fetchData = async () => {
     try {
-      const resDocs = await axios.get("http://localhost:8000/api/v1/admin/doctors", { headers: { Authorization: `Bearer ${token}` } });
-      const resStaffs = await axios.get("http://localhost:8000/api/v1/admin/staffs", { headers: { Authorization: `Bearer ${token}` } });
-      const resAccs = await axios.get("http://localhost:8000/api/v1/admin/accounts", { headers: { Authorization: `Bearer ${token}` } });
-      const resSpecs = await axios.get("http://localhost:8000/api/v1/admin/specialties");
+      const resDocs = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/doctors", { headers: { Authorization: `Bearer ${token}` } });
+      const resStaffs = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/staffs", { headers: { Authorization: `Bearer ${token}` } });
+      const resAccs = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/accounts", { headers: { Authorization: `Bearer ${token}` } });
+      const resSpecs = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/specialties");
       
       setDoctors(resDocs.data);
       setStaffs(resStaffs.data);
@@ -46,11 +46,11 @@ export function AdminPersonnelTab({ token }: { token: string }) {
     try {
       if (activeSubTab === "doctors") {
         if (!newDoctor.MaTaiKhoan || !newDoctor.HoTen || !newDoctor.MaChuyenKhoa) return setMsg("Vui lòng điền đủ thông tin bắt buộc.");
-        await axios.post("http://localhost:8000/api/v1/admin/doctors", newDoctor, { headers: { Authorization: `Bearer ${token}` } });
+        await axios.post("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/doctors", newDoctor, { headers: { Authorization: `Bearer ${token}` } });
         setNewDoctor({ MaTaiKhoan: "", MaChuyenKhoa: "", HoTen: "", HocVi: "BS", SDT: "" });
       } else {
         if (!newStaff.MaTaiKhoan || !newStaff.HoTen) return setMsg("Vui lòng điền đủ thông tin.");
-        await axios.post("http://localhost:8000/api/v1/admin/staffs", newStaff, { headers: { Authorization: `Bearer ${token}` } });
+        await axios.post("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/staffs", newStaff, { headers: { Authorization: `Bearer ${token}` } });
         setNewStaff({ MaTaiKhoan: "", HoTen: "", ChucVu: "Lễ tân", SDT: "" });
       }
       setMsg("Thêm nhân sự thành công!");
@@ -64,10 +64,10 @@ export function AdminPersonnelTab({ token }: { token: string }) {
   const handleUpdate = async () => {
     try {
       if (activeSubTab === "doctors") {
-        await axios.put(`http://localhost:8000/api/v1/admin/doctors/${editingId}`, newDoctor, { headers: { Authorization: `Bearer ${token}` } });
+        await axios.put(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/doctors/${editingId}`, newDoctor, { headers: { Authorization: `Bearer ${token}` } });
         setNewDoctor({ MaTaiKhoan: "", MaChuyenKhoa: "", HoTen: "", HocVi: "BS", SDT: "" });
       } else {
-        await axios.put(`http://localhost:8000/api/v1/admin/staffs/${editingId}`, newStaff, { headers: { Authorization: `Bearer ${token}` } });
+        await axios.put(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/staffs/${editingId}`, newStaff, { headers: { Authorization: `Bearer ${token}` } });
         setNewStaff({ MaTaiKhoan: "", HoTen: "", ChucVu: "Lễ tân", SDT: "" });
       }
       setMsg("Sửa nhân sự thành công!");
@@ -91,7 +91,7 @@ export function AdminPersonnelTab({ token }: { token: string }) {
   const handleDelete = async (type: string, id: string) => {
     if (!confirm('Xóa vĩnh viễn nhân sự này? Thao tác không thể phục hồi và sẽ bị chặn nếu có dữ liệu liên kết.')) return;
     try {
-      await axios.delete(`http://localhost:8000/api/v1/admin/${type}/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.delete(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/${type}/${id}`, { headers: { Authorization: `Bearer ${token}` } });
       alert('Đã xóa thành công!');
       fetchData();
     } catch (e: any) {

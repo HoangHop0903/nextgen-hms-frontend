@@ -15,7 +15,7 @@ export function PatientSupportTab({ token }: { token: string }) {
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/v1/patient/support", {
+      const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/patient/support", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setRequests(res.data);
@@ -27,7 +27,7 @@ export function PatientSupportTab({ token }: { token: string }) {
   const handleSubmit = async () => {
     if (!content.trim()) return;
     try {
-      await axios.post("http://localhost:8000/api/v1/patient/support", 
+      await axios.post("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/patient/support", 
         { NoiDung: content },
         { headers: { Authorization: `Bearer ${token}` } }
       );

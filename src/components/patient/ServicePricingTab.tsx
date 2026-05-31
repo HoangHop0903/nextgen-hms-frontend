@@ -12,7 +12,7 @@ export function ServicePricingTab({ token }: { token: string }) {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/api/v1/patient/services", {
+        const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/patient/services", {
           headers: { Authorization: `Bearer ${token}` }
         });
         setServices(res.data);

@@ -55,7 +55,7 @@ export default function LoginPage() {
     setError(""); setSuccess(""); setLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:8000/api/v1/auth/login", {
+      const response = await axios.post("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/auth/login", {
         username,
         password,
       });
@@ -72,7 +72,7 @@ export default function LoginPage() {
     setError(""); setSuccess(""); setLoading(true);
 
     try {
-      await axios.post("http://localhost:8000/api/v1/auth/register", {
+      await axios.post("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/auth/register", {
         username: regUsername,
         password: regPassword,
         email: regEmail,
@@ -83,7 +83,7 @@ export default function LoginPage() {
       });
       
       setSuccess("Đăng ký thành công! Đang tự động đăng nhập...");
-      const response = await axios.post("http://localhost:8000/api/v1/auth/login", {
+      const response = await axios.post("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/auth/login", {
         username: regUsername,
         password: regPassword,
       });
@@ -97,7 +97,7 @@ export default function LoginPage() {
   const handleGoogleSuccess = async (credentialResponse: any) => {
     setError(""); setSuccess(""); setLoading(true);
     try {
-      const response = await axios.post("http://localhost:8000/api/v1/auth/google-login", {
+      const response = await axios.post("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/auth/google-login", {
         token: credentialResponse.credential
       });
       processAuthResponse(response.data);

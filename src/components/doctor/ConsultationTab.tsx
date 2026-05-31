@@ -35,7 +35,7 @@ export function ConsultationTab({ token }: { token: string }) {
 
   const fetchSchedule = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/v1/doctor/schedule", {
+      const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/doctor/schedule", {
         headers: { Authorization: `Bearer ${token}` }
       });
       // Chỉ lấy bệnh nhân chưa khám xong
@@ -47,7 +47,7 @@ export function ConsultationTab({ token }: { token: string }) {
 
   const fetchMedicines = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/v1/doctor/medicines", {
+      const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/doctor/medicines", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMedicines(res.data);
@@ -64,7 +64,7 @@ export function ConsultationTab({ token }: { token: string }) {
     setLoading(true);
     setMsg("");
     try {
-      const res = await axios.post("http://localhost:8000/api/v1/doctor/consultation", {
+      const res = await axios.post("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/doctor/consultation", {
         MaDatLich: selectedBooking,
         TrieuChung: trieuChung,
         ChanDoan: chanDoan,
@@ -107,7 +107,7 @@ export function ConsultationTab({ token }: { token: string }) {
     setLoading(true);
     setMsg("");
     try {
-      const res = await axios.post("http://localhost:8000/api/v1/doctor/prescription", {
+      const res = await axios.post("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/doctor/prescription", {
         MaPhieuKham: phieuKhamId,
         GhiChu: "Kê đơn theo Cổng Bác sĩ",
         ChiTiet: prescription
@@ -138,7 +138,7 @@ export function ConsultationTab({ token }: { token: string }) {
     if (!newMedName) return;
     setLoading(true);
     try {
-      const res = await axios.post("http://localhost:8000/api/v1/doctor/medicines", {
+      const res = await axios.post("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/doctor/medicines", {
         TenThuoc: newMedName,
         DonViTinh: newMedUnit,
         GiaThuoc: newMedPrice,

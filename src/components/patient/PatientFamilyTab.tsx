@@ -21,7 +21,7 @@ export function PatientFamilyTab({ token }: { token: string }) {
 
   const fetchFamily = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/v1/patient/family", {
+      const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/patient/family", {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.data) {
@@ -36,7 +36,7 @@ export function PatientFamilyTab({ token }: { token: string }) {
     if (!family.HoTen || !family.SDT) return setMsg("Vui lòng nhập Họ tên và SĐT người nhà");
     setLoading(true);
     try {
-      await axios.post("http://localhost:8000/api/v1/patient/family", family, {
+      await axios.post("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/patient/family", family, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMsg("Cập nhật thông tin người nhà thành công!");

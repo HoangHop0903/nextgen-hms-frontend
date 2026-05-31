@@ -38,7 +38,7 @@ export default function StaffDashboard() {
 
   const fetchStaffInfo = async (t: string) => {
     try {
-      const res = await axios.get("http://localhost:8000/api/v1/staff/me", {
+      const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/staff/me", {
         headers: { Authorization: `Bearer ${t}` }
       });
       setStaffInfo(res.data);

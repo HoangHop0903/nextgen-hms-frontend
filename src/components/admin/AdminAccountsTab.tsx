@@ -26,7 +26,7 @@ export function AdminAccountsTab({ token }: { token: string }) {
 
   const fetchAccounts = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/v1/admin/accounts", {
+      const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/accounts", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setAccounts(res.data);
@@ -39,7 +39,7 @@ export function AdminAccountsTab({ token }: { token: string }) {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post("http://localhost:8000/api/v1/admin/accounts", {
+      await axios.post("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/accounts", {
         TenDangNhap: username,
         MatKhau: password,
         Email: email,
@@ -57,7 +57,7 @@ export function AdminAccountsTab({ token }: { token: string }) {
 
   const handleToggleStatus = async (ma_tk: string, currentStatus: boolean) => {
     try {
-      await axios.put(`http://localhost:8000/api/v1/admin/accounts/${ma_tk}/status`, {
+      await axios.put(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/accounts/${ma_tk}/status`, {
         status: !currentStatus
       }, { headers: { Authorization: `Bearer ${token}` } });
       fetchAccounts();
@@ -74,7 +74,7 @@ export function AdminAccountsTab({ token }: { token: string }) {
       if (editEmail) payload.email = editEmail;
       if (editRole) payload.vai_tro = editRole;
 
-      await axios.put(`http://localhost:8000/api/v1/admin/accounts/${editingAcc.MaTaiKhoan}`, payload, {
+      await axios.put(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/accounts/${editingAcc.MaTaiKhoan}`, payload, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setEditingAcc(null);

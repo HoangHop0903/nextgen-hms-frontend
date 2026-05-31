@@ -22,8 +22,8 @@ export function AdminFacilitiesTab({ token }: { token: string }) {
 
   const fetchData = async () => {
     try {
-      const res1 = await axios.get("http://localhost:8000/api/v1/admin/specialties");
-      const res2 = await axios.get("http://localhost:8000/api/v1/admin/rooms");
+      const res1 = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/specialties");
+      const res2 = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/rooms");
       setSpecialties(res1.data);
       setRooms(res2.data);
     } catch (e) {
@@ -33,7 +33,7 @@ export function AdminFacilitiesTab({ token }: { token: string }) {
 
   const toggleStatus = async (type: string, id: string, currentStatus: boolean) => {
     try {
-      await axios.put(`http://localhost:8000/api/v1/admin/${type}/${id}/status`, { status: !currentStatus });
+      await axios.put(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/${type}/${id}/status`, { status: !currentStatus });
       fetchData();
     } catch (e) {
       console.error(e);
@@ -43,7 +43,7 @@ export function AdminFacilitiesTab({ token }: { token: string }) {
   const handleDelete = async (type: string, id: string) => {
     if (!confirm('Bạn có chắc chắn muốn xóa vĩnh viễn mục này? Lưu ý: Không thể xóa nếu đã có dữ liệu liên kết.')) return;
     try {
-      await axios.delete(`http://localhost:8000/api/v1/admin/${type}/${id}`, {
+      await axios.delete(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/${type}/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchData();
@@ -55,7 +55,7 @@ export function AdminFacilitiesTab({ token }: { token: string }) {
 
   const handleUpdateSpecialty = async () => {
     try {
-      await axios.put(`http://localhost:8000/api/v1/admin/specialties/${editingItem.MaChuyenKhoa}`, newSpec, {
+      await axios.put(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/specialties/${editingItem.MaChuyenKhoa}`, newSpec, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMsg("Sửa chuyên khoa thành công");
@@ -69,7 +69,7 @@ export function AdminFacilitiesTab({ token }: { token: string }) {
 
   const handleUpdateRoom = async () => {
     try {
-      await axios.put(`http://localhost:8000/api/v1/admin/rooms/${editingItem.MaPhong}`, newRoom, {
+      await axios.put(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/rooms/${editingItem.MaPhong}`, newRoom, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMsg("Sửa phòng khám thành công");
@@ -96,7 +96,7 @@ export function AdminFacilitiesTab({ token }: { token: string }) {
   const handleCreateSpecialty = async () => {
     if (!newSpec.TenChuyenKhoa) return setMsg("Vui lòng nhập tên chuyên khoa");
     try {
-      await axios.post("http://localhost:8000/api/v1/admin/specialties", newSpec);
+      await axios.post("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/specialties", newSpec);
       setMsg("Thêm chuyên khoa thành công");
       setShowForm(false);
       setNewSpec({ TenChuyenKhoa: "", MoTa: "" });
@@ -109,7 +109,7 @@ export function AdminFacilitiesTab({ token }: { token: string }) {
   const handleCreateRoom = async () => {
     if (!newRoom.MaChuyenKhoa || !newRoom.TenPhong) return setMsg("Vui lòng nhập đủ thông tin");
     try {
-      await axios.post("http://localhost:8000/api/v1/admin/rooms", newRoom);
+      await axios.post("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/rooms", newRoom);
       setMsg("Thêm phòng khám thành công");
       setShowForm(false);
       setNewRoom({ MaChuyenKhoa: "", TenPhong: "", Tang: 1, Khu: "A" });

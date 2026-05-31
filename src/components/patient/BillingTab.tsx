@@ -20,7 +20,7 @@ export default function BillingTab({ token }: { token: string }) {
   const fetchInvoices = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:8000/api/v1/patient/invoices", {
+      const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/patient/invoices", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setInvoices(res.data);
@@ -34,7 +34,7 @@ export default function BillingTab({ token }: { token: string }) {
   const handlePay = async (invoiceId: string) => {
     try {
       const res = await axios.post(
-        "http://localhost:8000/api/v1/patient/payment/create_url",
+        "https://nextgen-hms-backend-8r2z.onrender.com/api/v1/patient/payment/create_url",
         { MaHoaDon: invoiceId },
         { headers: { Authorization: `Bearer ${token}` } }
       );

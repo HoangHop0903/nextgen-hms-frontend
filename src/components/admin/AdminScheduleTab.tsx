@@ -32,13 +32,13 @@ export function AdminScheduleTab({ token }: { token: string }) {
 
   const fetchData = async () => {
     try {
-      const resDocs = await axios.get("http://localhost:8000/api/v1/patient/doctors");
+      const resDocs = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/patient/doctors");
       setDoctors(resDocs.data);
       
-      const resRooms = await axios.get("http://localhost:8000/api/v1/admin/rooms");
+      const resRooms = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/rooms");
       setRooms(resRooms.data.filter((r: any) => r.TrangThai));
 
-      const resShifts = await axios.get("http://localhost:8000/api/v1/admin/shifts");
+      const resShifts = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/shifts");
       setShifts(resShifts.data);
     } catch (e) {
       console.error(e);
@@ -50,7 +50,7 @@ export function AdminScheduleTab({ token }: { token: string }) {
       return setMsg("Vui lòng nhập đủ thông tin");
     }
     try {
-      await axios.post("http://localhost:8000/api/v1/admin/schedule", newSchedule);
+      await axios.post("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/schedule", newSchedule);
       setMsg("Phân công lịch làm việc thành công!");
       setNewSchedule({ MaBacSi: "", MaPhong: "", MaCaKham: "", NgayKham: "", SoLuongToiDa: 20 });
     } catch (e) {
@@ -61,7 +61,7 @@ export function AdminScheduleTab({ token }: { token: string }) {
   const handleCreateShift = async () => {
     if (!newShift.TenCa) return setMsg("Vui lòng nhập tên ca");
     try {
-      await axios.post("http://localhost:8000/api/v1/admin/shifts", newShift, {
+      await axios.post("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/shifts", newShift, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMsg("Tạo ca khám thành công");
@@ -76,7 +76,7 @@ export function AdminScheduleTab({ token }: { token: string }) {
   const handleUpdateShift = async () => {
     if (!newShift.TenCa) return setMsg("Vui lòng nhập tên ca");
     try {
-      await axios.put(`http://localhost:8000/api/v1/admin/shifts/${editingShiftId}`, newShift, {
+      await axios.put(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/shifts/${editingShiftId}`, newShift, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMsg("Sửa ca khám thành công");
@@ -96,7 +96,7 @@ export function AdminScheduleTab({ token }: { token: string }) {
   const handleDeleteShift = async (id: string) => {
     if (!confirm('Bạn có chắc chắn muốn xóa vĩnh viễn ca khám này?')) return;
     try {
-      await axios.delete(`http://localhost:8000/api/v1/admin/shifts/${id}`, {
+      await axios.delete(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/shifts/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchData();

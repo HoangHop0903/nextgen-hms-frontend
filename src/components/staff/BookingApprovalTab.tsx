@@ -14,7 +14,7 @@ export function BookingApprovalTab({ token }: { token: string }) {
 
   const fetchBookings = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/v1/staff/bookings", {
+      const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/staff/bookings", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setBookings(res.data.filter((b: any) => b.TrangThai === "ChoDuyet"));
@@ -26,7 +26,7 @@ export function BookingApprovalTab({ token }: { token: string }) {
   const handleUpdateStatus = async (id: string, status: string) => {
     setLoading(true);
     try {
-      await axios.put(`http://localhost:8000/api/v1/staff/bookings/${id}/status`, { status }, {
+      await axios.put(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/staff/bookings/${id}/status`, { status }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchBookings();

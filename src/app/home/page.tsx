@@ -39,7 +39,7 @@ export default function HomePage() {
 
   const fetchAllDoctors = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/v1/patient/doctors");
+      const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/patient/doctors");
       setAllDoctors(res.data);
     } catch (e) {
       console.error("Lỗi lấy danh sách bác sĩ", e);

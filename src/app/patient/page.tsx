@@ -65,7 +65,7 @@ export default function PatientDashboard() {
 
   const fetchPatientInfo = async (t: string) => {
     try {
-      const res = await axios.get("http://localhost:8000/api/v1/patient/me", {
+      const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/patient/me", {
         headers: { Authorization: `Bearer ${t}` }
       });
       setPatientInfo(res.data);
@@ -76,7 +76,7 @@ export default function PatientDashboard() {
 
   const fetchAllDoctors = async (t: string) => {
     try {
-      const res = await axios.get("http://localhost:8000/api/v1/patient/doctors", {
+      const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/patient/doctors", {
         headers: { Authorization: `Bearer ${t}` }
       });
       setAllDoctors(res.data);
@@ -89,7 +89,7 @@ export default function PatientDashboard() {
     if (!token) return;
     const fetchBookings = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/api/v1/patient/bookings", {
+        const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/patient/bookings", {
           headers: { Authorization: `Bearer ${token}` }
         });
         const confirmed = res.data.filter((b: any) => 

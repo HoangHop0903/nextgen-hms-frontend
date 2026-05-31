@@ -26,9 +26,9 @@ export function AdminPatientsTab({ token }: { token: string }) {
 
   const fetchData = async () => {
     try {
-      const resPat = await axios.get("http://localhost:8000/api/v1/admin/patients", { headers: { Authorization: `Bearer ${token}` } });
-      const resBook = await axios.get("http://localhost:8000/api/v1/admin/bookings", { headers: { Authorization: `Bearer ${token}` } });
-      const resAccs = await axios.get("http://localhost:8000/api/v1/admin/accounts", { headers: { Authorization: `Bearer ${token}` } });
+      const resPat = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/patients", { headers: { Authorization: `Bearer ${token}` } });
+      const resBook = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/bookings", { headers: { Authorization: `Bearer ${token}` } });
+      const resAccs = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/accounts", { headers: { Authorization: `Bearer ${token}` } });
       
       setPatients(resPat.data);
       setBookings(resBook.data);
@@ -41,7 +41,7 @@ export function AdminPatientsTab({ token }: { token: string }) {
   const handleDelete = async (type: string, id: string) => {
     if (!confirm('Xóa vĩnh viễn mục này? Lưu ý: Không thể xóa nếu đã có dữ liệu liên kết.')) return;
     try {
-      await axios.delete(`http://localhost:8000/api/v1/admin/${type}/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.delete(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/${type}/${id}`, { headers: { Authorization: `Bearer ${token}` } });
       alert('Đã xóa thành công!');
       fetchData();
     } catch (e: any) {
@@ -52,9 +52,9 @@ export function AdminPatientsTab({ token }: { token: string }) {
   const handleUpdate = async () => {
     try {
       if (activeSubTab === "patients") {
-        await axios.put(`http://localhost:8000/api/v1/admin/patients/${editingId}`, editPatient, { headers: { Authorization: `Bearer ${token}` } });
+        await axios.put(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/patients/${editingId}`, editPatient, { headers: { Authorization: `Bearer ${token}` } });
       } else {
-        await axios.put(`http://localhost:8000/api/v1/admin/bookings/${editingId}`, editBooking, { headers: { Authorization: `Bearer ${token}` } });
+        await axios.put(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/bookings/${editingId}`, editBooking, { headers: { Authorization: `Bearer ${token}` } });
       }
       setMsg("Sửa thông tin thành công!");
       setEditingId(null);

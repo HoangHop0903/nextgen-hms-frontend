@@ -16,7 +16,7 @@ export function StaffSupportTab({ token }: { token: string }) {
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/v1/staff/support-requests", {
+      const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/staff/support-requests", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setRequests(res.data);
@@ -28,7 +28,7 @@ export function StaffSupportTab({ token }: { token: string }) {
   const handleReply = async () => {
     if (!replyContent) return;
     try {
-      await axios.post(`http://localhost:8000/api/v1/staff/support-requests/${selectedReq.MaYeuCau}/reply`, 
+      await axios.post(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/staff/support-requests/${selectedReq.MaYeuCau}/reply`, 
       { NoiDung: replyContent },
       { headers: { Authorization: `Bearer ${token}` } });
       

@@ -37,7 +37,7 @@ export default function DoctorDashboard() {
 
   const fetchDoctorInfo = async (t: string) => {
     try {
-      const res = await axios.get("http://localhost:8000/api/v1/doctor/me", {
+      const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/doctor/me", {
         headers: { Authorization: `Bearer ${t}` }
       });
       setDoctorInfo(res.data);

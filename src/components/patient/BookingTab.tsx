@@ -32,7 +32,7 @@ export function BookingTab({ token, isGuest, initialSelectedDoctor, initialSearc
 
   const fetchDoctors = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/v1/patient/doctors", {
+      const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/patient/doctors", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setDoctors(res.data);
@@ -55,7 +55,7 @@ export function BookingTab({ token, isGuest, initialSelectedDoctor, initialSearc
     setBookingSuccess(false);
     setSelectedSlot(null);
     try {
-      const res = await axios.get(`http://localhost:8000/api/v1/patient/doctors/${doc.MaBacSi}/schedule`, {
+      const res = await axios.get(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/patient/doctors/${doc.MaBacSi}/schedule`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setSchedules(res.data);
@@ -81,7 +81,7 @@ export function BookingTab({ token, isGuest, initialSelectedDoctor, initialSearc
       }
       setLoading(true);
       try {
-        const res = await axios.post("http://localhost:8000/api/v1/patient/guest-booking", {
+        const res = await axios.post("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/patient/guest-booking", {
           ...guestInfo,
           MaLichLamViec: selectedSlot.scheduleId,
           KhungGio: selectedSlot.time,
@@ -113,7 +113,7 @@ export function BookingTab({ token, isGuest, initialSelectedDoctor, initialSearc
     
     setLoading(true);
     try {
-      const res = await axios.post("http://localhost:8000/api/v1/patient/book", {
+      const res = await axios.post("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/patient/book", {
         MaLichLamViec: selectedSlot.scheduleId,
         KhungGio: selectedSlot.time,
         LyDoKham: reason

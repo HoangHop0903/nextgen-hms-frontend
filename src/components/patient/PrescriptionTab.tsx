@@ -13,7 +13,7 @@ export function PrescriptionTab({ token }: { token: string }) {
 
   const fetchPrescriptions = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/v1/patient/prescriptions", {
+      const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/patient/prescriptions", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setData(res.data);

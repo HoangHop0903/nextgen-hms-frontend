@@ -18,7 +18,7 @@ export function Topbar() {
     }
     
     if (token) {
-      axios.get("http://localhost:8000/api/v1/auth/me", {
+      axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/auth/me", {
         headers: { Authorization: `Bearer ${token}` }
       }).then(res => {
         if (res.data && res.data.HoTen) {

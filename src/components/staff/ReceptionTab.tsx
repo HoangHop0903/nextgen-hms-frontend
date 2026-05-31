@@ -15,7 +15,7 @@ export function ReceptionTab({ token }: { token: string }) {
 
   const fetchApprovedBookings = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/v1/staff/bookings", {
+      const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/staff/bookings", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setBookings(res.data.filter((b: any) => b.TrangThai === "DaDuyet"));
@@ -28,7 +28,7 @@ export function ReceptionTab({ token }: { token: string }) {
     setLoading(true);
     setMsg("");
     try {
-      const res = await axios.post(`http://localhost:8000/api/v1/staff/reception`, { MaDatLich: id }, {
+      const res = await axios.post(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/staff/reception`, { MaDatLich: id }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMsg(`Đã tiếp nhận ${id}. Số thứ tự: ${res.data.SoThuTu}`);

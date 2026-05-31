@@ -35,7 +35,7 @@ export function UpdateProfileModal({ token, initialData, onClose }: { token: str
       if (avatarFile) {
         const formData = new FormData();
         formData.append("file", avatarFile);
-        const uploadRes = await axios.post("http://localhost:8000/api/v1/auth/upload-avatar", formData, {
+        const uploadRes = await axios.post("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/auth/upload-avatar", formData, {
           headers: { 
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}` 
@@ -51,7 +51,7 @@ export function UpdateProfileModal({ token, initialData, onClose }: { token: str
       if (sdt !== initialData?.SDT) payload.sdt = sdt;
       if (finalAvatarUrl !== initialData?.AnhDaiDien) payload.anh_dai_dien = finalAvatarUrl;
       
-      await axios.put("http://localhost:8000/api/v1/auth/profile", payload, {
+      await axios.put("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/auth/profile", payload, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMsg("Cập nhật thành công! Đang tải lại...");

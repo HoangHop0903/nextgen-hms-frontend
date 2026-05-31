@@ -23,9 +23,9 @@ export function AdminPharmacyTab({ token }: { token: string }) {
 
   const fetchData = async () => {
     try {
-      const res1 = await axios.get("http://localhost:8000/api/v1/admin/medicines");
-      const res2 = await axios.get("http://localhost:8000/api/v1/admin/prices");
-      const res3 = await axios.get("http://localhost:8000/api/v1/admin/specialties");
+      const res1 = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/medicines");
+      const res2 = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/prices");
+      const res3 = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/specialties");
       setMedicines(res1.data);
       setPrices(res2.data);
       setSpecialties(res3.data);
@@ -36,7 +36,7 @@ export function AdminPharmacyTab({ token }: { token: string }) {
 
   const toggleStatus = async (type: string, id: string, currentStatus: boolean) => {
     try {
-      await axios.put(`http://localhost:8000/api/v1/admin/${type}/${id}/status`, { status: !currentStatus });
+      await axios.put(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/${type}/${id}/status`, { status: !currentStatus });
       fetchData();
     } catch (e) {
       console.error(e);
@@ -46,7 +46,7 @@ export function AdminPharmacyTab({ token }: { token: string }) {
   const handleDelete = async (type: string, id: string) => {
     if (!confirm('Bạn có chắc chắn muốn xóa vĩnh viễn mục này? Lưu ý: Không thể xóa nếu đã có dữ liệu liên kết.')) return;
     try {
-      await axios.delete(`http://localhost:8000/api/v1/admin/${type}/${id}`, {
+      await axios.delete(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/${type}/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchData();
@@ -58,7 +58,7 @@ export function AdminPharmacyTab({ token }: { token: string }) {
 
   const handleUpdateMed = async () => {
     try {
-      await axios.put(`http://localhost:8000/api/v1/admin/medicines/${editingItem.MaThuoc}`, newMed, {
+      await axios.put(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/medicines/${editingItem.MaThuoc}`, newMed, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMsg("Sửa thuốc thành công");
@@ -72,7 +72,7 @@ export function AdminPharmacyTab({ token }: { token: string }) {
 
   const handleUpdatePrice = async () => {
     try {
-      await axios.put(`http://localhost:8000/api/v1/admin/prices/${editingItem.MaBangGia}`, newPrice, {
+      await axios.put(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/prices/${editingItem.MaBangGia}`, newPrice, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMsg("Sửa dịch vụ thành công");
@@ -99,7 +99,7 @@ export function AdminPharmacyTab({ token }: { token: string }) {
   const handleCreateMed = async () => {
     if (!newMed.TenThuoc || newMed.GiaThuoc <= 0) return setMsg("Vui lòng nhập tên thuốc và giá hợp lệ");
     try {
-      await axios.post("http://localhost:8000/api/v1/admin/medicines", newMed);
+      await axios.post("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/medicines", newMed);
       setMsg("Thêm thuốc thành công");
       setShowForm(false);
       setNewMed({ TenThuoc: "", DonViTinh: "Viên", GiaThuoc: 0, CachDung: "" });
@@ -112,7 +112,7 @@ export function AdminPharmacyTab({ token }: { token: string }) {
   const handleCreatePrice = async () => {
     if (!newPrice.MaChuyenKhoa || !newPrice.TenDichVu || newPrice.GiaKham <= 0) return setMsg("Vui lòng nhập đủ thông tin");
     try {
-      await axios.post("http://localhost:8000/api/v1/admin/prices", newPrice);
+      await axios.post("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/prices", newPrice);
       setMsg("Thêm dịch vụ thành công");
       setShowForm(false);
       setNewPrice({ MaChuyenKhoa: "", TenDichVu: "", GiaKham: 0 });
