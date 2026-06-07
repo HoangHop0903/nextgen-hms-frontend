@@ -3,9 +3,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Calendar, User } from "lucide-react";
+import { PatientDetailsModal } from "./PatientDetailsModal";
 
 export function DoctorScheduleTab({ token }: { token: string }) {
   const [schedule, setSchedule] = useState<any[]>([]);
+  const [selectedPatient, setSelectedPatient] = useState<string | null>(null);
 
   useEffect(() => {
     fetchSchedule();
@@ -43,7 +45,10 @@ export function DoctorScheduleTab({ token }: { token: string }) {
             </thead>
             <tbody>
               {schedule.map((s, idx) => (
-                <tr key={idx} className="border-b border-slate-100 hover:bg-slate-50">
+                <tr key={idx} 
+                    className="border-b border-slate-100 hover:bg-indigo-50/50 cursor-pointer transition-colors"
+                    onClick={() => setSelectedPatient(s.MaBenhNhan)}
+                >
                   <td className="px-4 py-3 font-medium text-slate-900">{s.MaBenhNhan}</td>
                   <td className="px-4 py-3 font-bold text-slate-800">{s.TenBenhNhan}</td>
                   <td className="px-4 py-3">{s.NgayKham}</td>
@@ -63,6 +68,14 @@ export function DoctorScheduleTab({ token }: { token: string }) {
             </tbody>
           </table>
         </div>
+      )}
+
+      {selectedPatient && (
+        <PatientDetailsModal 
+          token={token} 
+          maBenhNhan={selectedPatient} 
+          onClose={() => setSelectedPatient(null)} 
+        />
       )}
     </div>
   );
