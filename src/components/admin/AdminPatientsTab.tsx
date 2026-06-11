@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Users, Trash2, CalendarCheck, CheckCircle2, Edit } from "lucide-react";
+import { Users, Trash2, CalendarCheck, CheckCircle2, Edit, FileText } from "lucide-react";
+import { PatientDetailsModal } from "../doctor/PatientDetailsModal";
 
 export function AdminPatientsTab({ token }: { token: string }) {
   const [patients, setPatients] = useState<any[]>([]);
@@ -13,6 +14,7 @@ export function AdminPatientsTab({ token }: { token: string }) {
   const [msg, setMsg] = useState("");
 
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [selectedPatient, setSelectedPatient] = useState<string | null>(null);
   
   // Patient edit state
   const [editPatient, setEditPatient] = useState({ HoTen: "", NgaySinh: "", GioiTinh: "", DienThoai: "" });
@@ -119,10 +121,10 @@ export function AdminPatientsTab({ token }: { token: string }) {
               <div>
                 <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Trạng Thái</label>
                 <select value={editBooking.TrangThai} onChange={e => setEditBooking({...editBooking, TrangThai: e.target.value})} className="w-full p-2 border dark:border-slate-700 rounded-lg outline-none focus:border-teal-500 dark:bg-slate-800 dark:text-slate-200">
-                  <option value="CHO_XAC_NHAN">Chờ xác nhận</option>
-                  <option value="DA_XAC_NHAN">Đã xác nhận</option>
-                  <option value="HOAN_THANH">Hoàn thành</option>
-                  <option value="DA_HUY">Đã hủy</option>
+                  <option value="Chờ xác nhận">Chờ xác nhận</option>
+                  <option value="Đã xác nhận">Đã xác nhận</option>
+                  <option value="Hoàn thành">Hoàn thành</option>
+                  <option value="Đã hủy">Đã hủy</option>
                 </select>
               </div>
             )}
@@ -168,6 +170,9 @@ export function AdminPatientsTab({ token }: { token: string }) {
                 <td className="p-4 text-slate-600 dark:text-slate-400">{item.GioiTinh}</td>
                 <td className="p-4 text-slate-600 dark:text-slate-400">{item.DienThoai}</td>
                 <td className="p-4">
+                  <button onClick={() => setSelectedPatient(item.MaBenhNhan)} className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center gap-1 inline-flex mr-3">
+                    <FileText className="w-4 h-4" /> Chi tiết
+                  </button>
                   <button onClick={() => openEdit(item)} className="text-emerald-600 hover:text-emerald-800 text-sm font-medium flex items-center gap-1 inline-flex mr-3">
                     <Edit className="w-4 h-4" /> Sửa
                   </button>
@@ -184,9 +189,9 @@ export function AdminPatientsTab({ token }: { token: string }) {
                 <td className="p-4 text-slate-600 dark:text-slate-400">{item.NgayKham}</td>
                 <td className="p-4">
                   <span className={`px-2 py-1 rounded text-xs font-bold ${
-                    item.TrangThai === 'DA_XAC_NHAN' ? 'bg-blue-100 text-blue-700' :
-                    item.TrangThai === 'CHO_XAC_NHAN' ? 'bg-amber-100 text-amber-700' : 
-                    item.TrangThai === 'HOAN_THANH' ? 'bg-emerald-100 text-emerald-700' : 
+                    item.TrangThai === 'Đã xác nhận' ? 'bg-blue-100 text-blue-700' :
+                    item.TrangThai === 'Chờ xác nhận' ? 'bg-amber-100 text-amber-700' : 
+                    item.TrangThai === 'Hoàn thành' ? 'bg-emerald-100 text-emerald-700' : 
                     'bg-rose-100 text-rose-700'
                   }`}>
                     {item.TrangThai}
@@ -205,6 +210,14 @@ export function AdminPatientsTab({ token }: { token: string }) {
           </tbody>
         </table>
       </div>
+
+      {selectedPatient && (
+        <PatientDetailsModal 
+          token={token} 
+          maBenhNhan={selectedPatient} 
+          onClose={() => setSelectedPatient(null)} 
+        />
+      )}
     </div>
   );
 }

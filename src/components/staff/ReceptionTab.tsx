@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Users, Ticket } from "lucide-react";
+import { Users, Ticket, FileText } from "lucide-react";
+import { PatientDetailsModal } from "../doctor/PatientDetailsModal";
 
 export function ReceptionTab({ token }: { token: string }) {
   const [bookings, setBookings] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
+  const [selectedPatient, setSelectedPatient] = useState<string | null>(null);
 
   useEffect(() => {
     fetchApprovedBookings();
@@ -18,7 +20,7 @@ export function ReceptionTab({ token }: { token: string }) {
       const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/staff/bookings", {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setBookings(res.data.filter((b: any) => b.TrangThai === "DaDuyet"));
+      setBookings(res.data.filter((b: any) => b.TrangThai === "Đã xác nhận"));
     } catch (e) {
       console.error(e);
     }
@@ -60,7 +62,9 @@ export function ReceptionTab({ token }: { token: string }) {
                 <span className="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded">Mã: {b.MaDatLich}</span>
                 <span className="text-xs font-semibold text-slate-500">{b.NgayKham}</span>
               </div>
-              <h3 className="font-bold text-lg text-slate-900">{b.TenBenhNhan}</h3>
+              <h3 className="font-bold text-lg text-slate-900 cursor-pointer hover:text-blue-600 transition-colors" onClick={() => setSelectedPatient(b.MaBenhNhan)}>
+                {b.TenBenhNhan} <FileText className="w-4 h-4 inline ml-1 text-slate-400" />
+              </h3>
               <p className="text-sm text-slate-600 mb-4">SĐT: {b.SDT}</p>
               
               <div className="bg-slate-50 p-3 rounded-lg mb-4 text-sm">
@@ -78,6 +82,14 @@ export function ReceptionTab({ token }: { token: string }) {
             </div>
           ))}
         </div>
+      )}
+
+      {selectedPatient && (
+        <PatientDetailsModal 
+          token={token} 
+          maBenhNhan={selectedPatient} 
+          onClose={() => setSelectedPatient(null)} 
+        />
       )}
     </div>
   );
