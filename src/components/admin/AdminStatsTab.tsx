@@ -131,7 +131,7 @@ export function AdminStatsTab({ token }: { token: string }) {
           {/* Pie Chart */}
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm p-5 flex-1 rounded-sm flex flex-col">
             <h3 className="text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-4 flex items-center gap-2">
-              <TrendingUp className="w-4 h-4" /> Cơ Cấu Chuyên Khoa
+              <TrendingUp className="w-4 h-4" /> Tỷ Lệ Đặt Khám Theo Khoa
             </h3>
             <div className="h-[180px] w-full relative">
               <ResponsiveContainer width="100%" height="100%">
@@ -154,8 +154,8 @@ export function AdminStatsTab({ token }: { token: string }) {
                 </PieChart>
               </ResponsiveContainer>
               <div className="absolute inset-0 flex items-center justify-center flex-col pointer-events-none">
-                <span className="text-xl font-black text-slate-800 dark:text-white">{stats.total_doctors}</span>
-                <span className="text-[9px] uppercase font-bold text-slate-400">Bác sĩ</span>
+                <span className="text-xl font-black text-slate-800 dark:text-white">{stats.total_bookings || pieData.reduce((acc, curr) => acc + curr.value, 0)}</span>
+                <span className="text-[9px] uppercase font-bold text-slate-400">Lượt khám</span>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-y-2 gap-x-1 mt-4">
