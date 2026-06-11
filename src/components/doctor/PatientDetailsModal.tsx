@@ -14,7 +14,9 @@ export function PatientDetailsModal({ token, maBenhNhan, onClose }: { token: str
 
   const fetchPatientData = async () => {
     try {
-      const res = await axios.get(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/doctor/patient/${maBenhNhan}`, {
+      const role = typeof window !== 'undefined' ? localStorage.getItem('role') : null;
+      const apiPrefix = role === 'ADMIN' ? 'admin' : 'doctor';
+      const res = await axios.get(`https://nextgen-hms-backend-8r2z.onrender.com/api/v1/${apiPrefix}/patient/${maBenhNhan}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setData(res.data);

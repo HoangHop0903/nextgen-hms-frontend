@@ -91,12 +91,28 @@ export default function HomePage() {
             <h1 className="text-xl font-black text-cyan-500 dark:text-cyan-400 flex items-center gap-2 cursor-pointer" onClick={() => setActiveTab('home')}>
               <HeartPulse className="w-8 h-8 text-cyan-400" /> NextGen Care
             </h1>
-            <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600 dark:text-slate-300">
-              <button onClick={() => setActiveTab('home')} className="hover:text-cyan-600 dark:hover:text-cyan-400 text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-900/30 px-3 py-1 rounded-full">{t("nav.specialty")}</button>
-              <button onClick={() => setActiveTab('hospitals')} className="hover:text-cyan-600 dark:hover:text-cyan-400">{t("nav.hospital")}</button>
+            <nav className="hidden md:flex items-center gap-2 text-sm font-semibold text-slate-600 dark:text-slate-300">
+              <button 
+                onClick={() => setActiveTab('home')} 
+                className={`px-3 py-1 rounded-full transition-colors ${activeTab === 'home' ? 'text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-900/30' : 'hover:text-cyan-600 dark:hover:text-cyan-400'}`}
+              >
+                {t("nav.specialty")}
+              </button>
+              
+              <button 
+                onClick={() => setActiveTab('hospitals')} 
+                className={`px-3 py-1 rounded-full transition-colors ${activeTab === 'hospitals' ? 'text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-900/30' : 'hover:text-cyan-600 dark:hover:text-cyan-400'}`}
+              >
+                {t("nav.hospital")}
+              </button>
               
               <div className="relative">
-                <button onClick={(e) => { e.stopPropagation(); setDoctorMenuOpen(!doctorMenuOpen); }} className="hover:text-cyan-600 dark:hover:text-cyan-400">{t("nav.doctor")}</button>
+                <button 
+                  onClick={(e) => { e.stopPropagation(); setDoctorMenuOpen(!doctorMenuOpen); }} 
+                  className={`px-3 py-1 rounded-full transition-colors ${activeTab === 'booking' ? 'text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-900/30' : 'hover:text-cyan-600 dark:hover:text-cyan-400'}`}
+                >
+                  {t("nav.doctor")}
+                </button>
                 {doctorMenuOpen && (
                   <div className="absolute top-full mt-4 -left-16 w-64 bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-100 dark:border-slate-800 py-2 z-50 max-h-[60vh] overflow-y-auto">
                     {allDoctors.length === 0 ? (
@@ -120,7 +136,12 @@ export default function HomePage() {
                 )}
               </div>
 
-              <button onClick={() => setActiveTab('services')} className="hover:text-cyan-600 dark:hover:text-cyan-400">{t("nav.package")}</button>
+              <button 
+                onClick={() => setActiveTab('services')} 
+                className={`px-3 py-1 rounded-full transition-colors ${activeTab === 'services' ? 'text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-900/30' : 'hover:text-cyan-600 dark:hover:text-cyan-400'}`}
+              >
+                {t("nav.package")}
+              </button>
             </nav>
           </div>
           

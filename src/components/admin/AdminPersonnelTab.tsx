@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { UserCog, Plus, Trash2, Edit, UserSquare2, BriefcaseMedical, CheckCircle2 } from "lucide-react";
+import { UserCog, Plus, Trash2, Edit, UserSquare2, BriefcaseMedical, CheckCircle2, Users } from "lucide-react";
+import { PersonnelProfileModal } from "../shared/PersonnelProfileModal";
 
 export function AdminPersonnelTab({ token }: { token: string }) {
   const [doctors, setDoctors] = useState<any[]>([]);
@@ -12,6 +13,7 @@ export function AdminPersonnelTab({ token }: { token: string }) {
   
   const [activeSubTab, setActiveSubTab] = useState("doctors"); // doctors or staffs
   const [msg, setMsg] = useState("");
+  const [viewingProfile, setViewingProfile] = useState<any>(null);
 
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -189,7 +191,7 @@ export function AdminPersonnelTab({ token }: { token: string }) {
           </thead>
           <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-300">
             {(activeSubTab === "doctors" ? doctors : staffs).map(item => (
-              <tr key={item.MaBacSi || item.MaNhanVien} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50">
+              <tr key={item.MaBacSi || item.MaNhanVien} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 cursor-pointer" onClick={() => setViewingProfile(item)}>
                 <td className="p-4 font-medium text-slate-800 dark:text-slate-200">{item.MaBacSi || item.MaNhanVien}</td>
                 <td className="p-4 font-bold text-slate-700 dark:text-slate-300">{item.HoTen}</td>
                 <td className="p-4 text-slate-600 dark:text-slate-400">{item.SDT}</td>
@@ -203,10 +205,10 @@ export function AdminPersonnelTab({ token }: { token: string }) {
                 )}
                 <td className="p-4 text-slate-500 dark:text-slate-500 font-mono text-xs">{item.MaTaiKhoan}</td>
                 <td className="p-4">
-                  <button onClick={() => openEdit(item)} className="text-emerald-600 hover:text-emerald-800 text-sm font-medium flex items-center gap-1 inline-flex mr-3">
+                  <button onClick={(e) => { e.stopPropagation(); openEdit(item); }} className="text-emerald-600 hover:text-emerald-800 text-sm font-medium flex items-center gap-1 inline-flex mr-3">
                     <Edit className="w-4 h-4" /> Sửa
                   </button>
-                  <button onClick={() => handleDelete(activeSubTab === "doctors" ? "doctors" : "staffs", item.MaBacSi || item.MaNhanVien)} className="text-red-500 hover:text-red-700 text-sm font-medium flex items-center gap-1 inline-flex">
+                  <button onClick={(e) => { e.stopPropagation(); handleDelete(activeSubTab === "doctors" ? "doctors" : "staffs", item.MaBacSi || item.MaNhanVien); }} className="text-red-500 hover:text-red-700 text-sm font-medium flex items-center gap-1 inline-flex">
                     <Trash2 className="w-4 h-4" /> Xóa
                   </button>
                 </td>
@@ -215,6 +217,14 @@ export function AdminPersonnelTab({ token }: { token: string }) {
           </tbody>
         </table>
       </div>
+
+      {viewingProfile && (
+        <PersonnelProfileModal 
+          person={viewingProfile} 
+          type={activeSubTab === "doctors" ? "doctor" : "staff"} 
+          onClose={() => setViewingProfile(null)} 
+        />
+      )}
     </div>
   );
 }

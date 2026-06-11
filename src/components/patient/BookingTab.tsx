@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Calendar, User, Stethoscope, Clock, Search, CheckCircle2 } from "lucide-react";
+import { Calendar, User, Stethoscope, Clock, Search, CheckCircle2, Info } from "lucide-react";
+import { PersonnelProfileModal } from "../shared/PersonnelProfileModal";
 
 export function BookingTab({ token, isGuest, initialSelectedDoctor, initialSearchQuery }: { token: string, isGuest?: boolean, initialSelectedDoctor?: any, initialSearchQuery?: string }) {
   const [doctors, setDoctors] = useState<any[]>([]);
@@ -19,6 +20,7 @@ export function BookingTab({ token, isGuest, initialSelectedDoctor, initialSearc
   const [selectedSlot, setSelectedSlot] = useState<{ scheduleId: string; time: string } | null>(null);
   const [vnpayUrl, setVnpayUrl] = useState("");
   const [newAccountInfo, setNewAccountInfo] = useState<{username: string, pass: string} | null>(null);
+  const [viewingProfile, setViewingProfile] = useState<any>(null);
 
   const showSpecialties = !selectedSpecialty && !selectedDoctor && localSearch === "";
   const specialties = Array.from(new Set(doctors.map(d => d.TenChuyenKhoa).filter(Boolean)));
@@ -42,8 +44,7 @@ export function BookingTab({ token, isGuest, initialSelectedDoctor, initialSearc
   };
 
   const filteredDoctors = doctors.filter(d => {
-    const matchesSearch = d.HoTen?.toLowerCase().includes(localSearch.toLowerCase()) || 
-                          d.TenChuyenKhoa?.toLowerCase().includes(localSearch.toLowerCase());
+    const matchesSearch = d.HoTen?.toLowerCase().includes(localSearch.toLowerCase());
     const matchesSpecialty = selectedSpecialty ? d.TenChuyenKhoa === selectedSpecialty : true;
     return matchesSearch && matchesSpecialty;
   });
@@ -156,7 +157,7 @@ export function BookingTab({ token, isGuest, initialSelectedDoctor, initialSearc
             <div className="flex justify-between items-center mb-6">
               <h3 className="font-semibold text-slate-700 dark:text-slate-200">Chọn chuyên khoa</h3>
               <div className="relative">
-                <input type="text" placeholder="Tìm chuyên khoa, bác sĩ..." value={localSearch} onChange={e => setLocalSearch(e.target.value)} className="pl-8 pr-3 py-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-sm outline-none focus:border-blue-400 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100" />
+                <input type="text" placeholder="Tìm tên bác sĩ..." value={localSearch} onChange={e => setLocalSearch(e.target.value)} className="pl-8 pr-3 py-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-sm outline-none focus:border-blue-400 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100" />
                 <Search className="w-4 h-4 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
               </div>
             </div>
@@ -180,7 +181,7 @@ export function BookingTab({ token, isGuest, initialSelectedDoctor, initialSearc
                 ← Quay lại {selectedSpecialty ? "chuyên khoa" : ""}
               </button>
               <div className="relative">
-                <input type="text" placeholder="Lọc bác sĩ..." value={localSearch} onChange={e => setLocalSearch(e.target.value)} className="pl-8 pr-3 py-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-sm outline-none focus:border-blue-400 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100" />
+                <input type="text" placeholder="Lọc theo tên..." value={localSearch} onChange={e => setLocalSearch(e.target.value)} className="pl-8 pr-3 py-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-sm outline-none focus:border-blue-400 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100" />
                 <Search className="w-4 h-4 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
               </div>
             </div>
@@ -189,11 +190,16 @@ export function BookingTab({ token, isGuest, initialSelectedDoctor, initialSearc
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredDoctors.map(doc => (
-                <div key={doc.MaBacSi} onClick={() => handleSelectDoctor(doc)} className="border border-slate-100 dark:border-slate-800 p-4 rounded-xl cursor-pointer hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-md transition-all group flex items-center gap-4 bg-white dark:bg-slate-900">
-                  <img src={doc.AnhDaiDien || `https://i.pravatar.cc/150?u=${doc.MaBacSi}`} alt={doc.HoTen} className="w-16 h-16 rounded-full object-cover shadow-sm group-hover:scale-105 transition-transform" />
-                  <div>
-                    <h4 className="font-bold text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{doc.HocVi} {doc.HoTen}</h4>
-                    <p className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-1"><Stethoscope className="w-3 h-3" /> {doc.TenChuyenKhoa}</p>
+                <div key={doc.MaBacSi} onClick={() => handleSelectDoctor(doc)} className="border border-slate-100 dark:border-slate-800 p-4 rounded-xl cursor-pointer hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-md transition-all group flex flex-col justify-between bg-white dark:bg-slate-900 relative">
+                  <button onClick={(e) => { e.stopPropagation(); setViewingProfile(doc); }} className="absolute top-2 right-2 p-2 text-slate-400 hover:text-blue-500 bg-slate-50 hover:bg-blue-50 dark:bg-slate-800 dark:hover:bg-slate-800 rounded-full transition-colors z-10" title="Xem thông tin chi tiết">
+                    <Info className="w-5 h-5" />
+                  </button>
+                  <div className="flex items-center gap-4">
+                    <img src={doc.AnhDaiDien || `https://i.pravatar.cc/150?u=${doc.MaBacSi}`} alt={doc.HoTen} className="w-16 h-16 rounded-full object-cover shadow-sm group-hover:scale-105 transition-transform" />
+                    <div>
+                      <h4 className="font-bold text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors pr-8">{doc.HocVi} {doc.HoTen}</h4>
+                      <p className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-1"><Stethoscope className="w-3 h-3" /> {doc.TenChuyenKhoa}</p>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -205,10 +211,13 @@ export function BookingTab({ token, isGuest, initialSelectedDoctor, initialSearc
         <div>
           <button onClick={() => { setSelectedDoctor(null); setSelectedSlot(null); }} className="text-blue-600 dark:text-blue-400 font-medium mb-6 hover:underline">← Quay lại danh sách bác sĩ</button>
           
-          <div className="flex items-center gap-6 mb-8 p-6 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
-             <img src={selectedDoctor.AnhDaiDien || `https://i.pravatar.cc/150?u=${selectedDoctor.MaBacSi}`} alt={selectedDoctor.HoTen} className="w-24 h-24 rounded-full object-cover shadow-sm" />
+          <div className="flex items-center gap-6 mb-8 p-6 bg-slate-50 dark:bg-slate-800/50 rounded-xl relative">
+             <button onClick={() => setViewingProfile(selectedDoctor)} className="absolute top-4 right-4 flex items-center gap-2 text-blue-600 hover:text-blue-800 bg-blue-50 dark:bg-blue-900/30 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors">
+               <Info className="w-4 h-4" /> Xem hồ sơ
+             </button>
+             <img src={selectedDoctor.AnhDaiDien || `https://i.pravatar.cc/150?u=${selectedDoctor.MaBacSi}`} alt={selectedDoctor.HoTen} className="w-24 h-24 rounded-full object-cover shadow-sm cursor-pointer hover:opacity-90" onClick={() => setViewingProfile(selectedDoctor)} />
              <div>
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100">{selectedDoctor.HocVi} {selectedDoctor.HoTen}</h3>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 cursor-pointer hover:text-blue-600" onClick={() => setViewingProfile(selectedDoctor)}>{selectedDoctor.HocVi} {selectedDoctor.HoTen}</h3>
                 <p className="text-slate-600 dark:text-slate-400 flex items-center gap-2 mt-1"><Stethoscope className="w-4 h-4" /> Chuyên khoa: {selectedDoctor.TenChuyenKhoa}</p>
              </div>
           </div>
@@ -418,6 +427,14 @@ export function BookingTab({ token, isGuest, initialSelectedDoctor, initialSearc
             </>
           )}
         </div>
+      )}
+
+      {viewingProfile && (
+        <PersonnelProfileModal 
+          person={viewingProfile} 
+          type="doctor" 
+          onClose={() => setViewingProfile(null)} 
+        />
       )}
     </div>
   );

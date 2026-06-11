@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { CheckCircle2, XCircle, Clock } from "lucide-react";
+import { CheckCircle2, XCircle, Clock, FileText } from "lucide-react";
+import { PatientDetailsModal } from "../doctor/PatientDetailsModal";
 
 export function BookingApprovalTab({ token }: { token: string }) {
   const [bookings, setBookings] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [selectedPatient, setSelectedPatient] = useState<string | null>(null);
 
   useEffect(() => {
     fetchBookings();
@@ -61,7 +63,9 @@ export function BookingApprovalTab({ token }: { token: string }) {
                 <tr key={b.MaDatLich} className="border-b border-slate-100 hover:bg-slate-50">
                   <td className="px-4 py-3 font-medium text-slate-900">{b.MaDatLich}</td>
                   <td className="px-4 py-3">
-                    <p className="font-bold text-slate-800">{b.TenBenhNhan}</p>
+                    <p className="font-bold text-slate-800 cursor-pointer hover:text-blue-600 transition-colors" onClick={() => setSelectedPatient(b.MaBenhNhan)}>
+                      {b.TenBenhNhan} <FileText className="w-3 h-3 inline ml-1 text-slate-400" />
+                    </p>
                     <p className="text-xs">{b.SDT}</p>
                   </td>
                   <td className="px-4 py-3 text-slate-800">{b.BacSi}</td>
@@ -93,6 +97,14 @@ export function BookingApprovalTab({ token }: { token: string }) {
             </tbody>
           </table>
         </div>
+      )}
+
+      {selectedPatient && (
+        <PatientDetailsModal 
+          token={token} 
+          maBenhNhan={selectedPatient} 
+          onClose={() => setSelectedPatient(null)} 
+        />
       )}
     </div>
   );

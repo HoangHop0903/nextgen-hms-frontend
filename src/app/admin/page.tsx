@@ -46,7 +46,7 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex transition-colors duration-300">
       {/* Sidebar */}
-      <div className="w-64 bg-slate-900 dark:bg-slate-950 border-r dark:border-slate-800 text-slate-300 flex flex-col fixed h-full shadow-xl z-10 transition-colors duration-300">
+      <div className="w-64 bg-slate-900 dark:bg-slate-950 border-r dark:border-slate-800 text-slate-300 flex flex-col fixed left-0 top-0 h-full shadow-xl z-40 transition-colors duration-300">
         <div className="p-6 pb-2">
           <div className="flex items-center gap-3 text-white mb-2">
             <div className="bg-indigo-500 p-2 rounded-lg">
@@ -57,7 +57,7 @@ export default function AdminDashboard() {
           <p className="text-xs text-slate-500 font-medium uppercase tracking-wider ml-11">NextGen HMS</p>
         </div>
         
-        <div className="mt-8 px-4 flex-1 space-y-2">
+        <div className="mt-8 px-4 flex-1 min-h-0 space-y-2 overflow-y-auto hide-scrollbar">
           <button 
             onClick={() => setActiveTab("stats")}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium text-sm ${activeTab === 'stats' ? 'bg-indigo-600 text-white shadow-md shadow-indigo-900/50' : 'hover:bg-slate-800 hover:text-white'}`}
@@ -107,10 +107,14 @@ export default function AdminDashboard() {
             <LogOut className="w-5 h-5" /> Đăng xuất
           </button>
         </div>
+        <style dangerouslySetInnerHTML={{__html: `
+          .hide-scrollbar::-webkit-scrollbar { display: none; }
+          .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        `}} />
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 ml-64 p-8">
+      <div className="flex-1 p-8">
         <header className="mb-8 flex justify-between items-start">
           <div>
             <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white transition-colors duration-300">
