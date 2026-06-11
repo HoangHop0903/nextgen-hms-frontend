@@ -11,6 +11,7 @@ export function AdminPatientsTab({ token }: { token: string }) {
   const [accounts, setAccounts] = useState<any[]>([]);
   
   const [activeSubTab, setActiveSubTab] = useState("patients"); // patients or bookings
+  const [bookingFilter, setBookingFilter] = useState("Tất cả"); // filter for bookings
   const [msg, setMsg] = useState("");
 
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -85,9 +86,30 @@ export function AdminPatientsTab({ token }: { token: string }) {
       </div>
 
       <div className="flex border-b border-slate-200 dark:border-slate-800 mb-6">
-        <button onClick={() => {setActiveSubTab("patients"); setEditingId(null);}} className={`px-4 py-2 font-medium border-b-2 transition-colors flex items-center gap-2 ${activeSubTab === "patients" ? "border-teal-500 text-teal-600 dark:text-teal-400" : "border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"}`}><Users className="w-4 h-4"/> Hồ sơ Bệnh nhân</button>
-        <button onClick={() => {setActiveSubTab("bookings"); setEditingId(null);}} className={`px-4 py-2 font-medium border-b-2 transition-colors flex items-center gap-2 ${activeSubTab === "bookings" ? "border-teal-500 text-teal-600 dark:text-teal-400" : "border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"}`}><CalendarCheck className="w-4 h-4"/> Lịch sử Đặt khám</button>
+        <button onClick={() => setActiveSubTab("patients")} className={`px-4 py-2 font-medium border-b-2 transition-colors flex items-center gap-2 ${activeSubTab === "patients" ? "border-teal-500 text-teal-600 dark:text-teal-400" : "border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"}`}><Users className="w-4 h-4"/> Bệnh nhân</button>
+        <button onClick={() => setActiveSubTab("bookings")} className={`px-4 py-2 font-medium border-b-2 transition-colors flex items-center gap-2 ${activeSubTab === "bookings" ? "border-teal-500 text-teal-600 dark:text-teal-400" : "border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"}`}><CalendarCheck className="w-4 h-4"/> Lịch sử đặt khám</button>
       </div>
+
+      {activeSubTab === "bookings" && (
+        <div className="flex gap-2 mb-6 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-700">
+          {["Tất cả", "Chờ xác nhận", "Đã xác nhận", "Hoàn thành", "Đã hủy"].map(status => {
+            const count = status === "Tất cả" ? bookings.length : bookings.filter(b => b.TrangThai === status).length;
+            return (
+              <button 
+                key={status}
+                onClick={() => setBookingFilter(status)}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap border flex items-center gap-1.5 ${
+                  bookingFilter === status 
+                    ? "bg-slate-800 text-white border-slate-800 dark:bg-slate-100 dark:text-slate-900 shadow-sm" 
+                    : "bg-white text-slate-600 border-slate-200 hover:border-slate-400 hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-400 dark:border-slate-800 dark:hover:border-slate-600"
+                }`}
+              >
+                {status} <span className={`px-1.5 py-0.5 rounded-full text-[10px] ${bookingFilter === status ? "bg-white/20 dark:bg-black/10" : "bg-slate-100 dark:bg-slate-800"}`}>{count}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       {msg && <div className="mb-4 p-3 bg-emerald-50 text-emerald-700 rounded-lg flex items-center gap-2"><CheckCircle2 className="w-5 h-5"/> {msg}</div>}
 
@@ -193,7 +215,9 @@ export function AdminPatientsTab({ token }: { token: string }) {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {bookings.map(item => {
+          {(bookingFilter === "Tất cả" ? bookings : bookings.filter(b => b.TrangThai === bookingFilter))
+            .sort((a, b) => new Date(b.NgayKham).getTime() - new Date(a.NgayKham).getTime())
+            .map(item => {
             const statusColor = item.TrangThai === 'Đã xác nhận' ? 'bg-blue-50 text-blue-700 border-blue-200' :
                                item.TrangThai === 'Chờ xác nhận' ? 'bg-amber-50 text-amber-700 border-amber-200' : 
                                item.TrangThai === 'Hoàn thành' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 
