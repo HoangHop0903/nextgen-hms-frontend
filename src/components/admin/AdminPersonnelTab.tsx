@@ -170,52 +170,54 @@ export function AdminPersonnelTab({ token }: { token: string }) {
         </div>
       )}
 
-      <div className="overflow-x-auto bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-sm border-b border-slate-200 dark:border-slate-800">
-              <th className="p-4 font-medium">Mã</th>
-              <th className="p-4 font-medium">Họ Tên</th>
-              <th className="p-4 font-medium">SĐT</th>
+      {/* --- DANH SÁCH --- */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {(activeSubTab === "doctors" ? doctors : staffs).map(item => (
+          <div 
+            key={item.MaBacSi || item.MaNhanVien} 
+            onClick={() => setViewingProfile(item)}
+            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-sm shadow-sm p-5 cursor-pointer hover:border-indigo-500 dark:hover:border-indigo-400 hover:shadow-md transition-all flex flex-col group"
+          >
+            <div className="flex justify-between items-start mb-4">
+              <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-lg font-bold text-slate-500 dark:text-slate-400 uppercase">
+                {item.HoTen.charAt(0)}
+              </div>
+              <span className="text-[10px] font-mono text-slate-500 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-2 py-1 rounded-sm">
+                {item.MaBacSi || item.MaNhanVien}
+              </span>
+            </div>
+            
+            <div className="flex-1">
+              <h4 className="font-bold text-slate-800 dark:text-slate-100 text-base leading-tight mb-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{item.HoTen}</h4>
               {activeSubTab === "doctors" ? (
-                <>
-                  <th className="p-4 font-medium">Học vị</th>
-                  <th className="p-4 font-medium">Chuyên khoa</th>
-                </>
+                <p className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 mb-2">
+                  {item.HocVi} • {specialties.find(s => s.MaChuyenKhoa === item.MaChuyenKhoa)?.TenChuyenKhoa || 'Chưa rõ CK'}
+                </p>
               ) : (
-                <th className="p-4 font-medium">Chức vụ</th>
+                <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mb-2">{item.ChucVu}</p>
               )}
-              <th className="p-4 font-medium">Tài khoản</th>
-              <th className="p-4 font-medium">Thao tác</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-300">
-            {(activeSubTab === "doctors" ? doctors : staffs).map(item => (
-              <tr key={item.MaBacSi || item.MaNhanVien} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 cursor-pointer" onClick={() => setViewingProfile(item)}>
-                <td className="p-4 font-medium text-slate-800 dark:text-slate-200">{item.MaBacSi || item.MaNhanVien}</td>
-                <td className="p-4 font-bold text-slate-700 dark:text-slate-300">{item.HoTen}</td>
-                <td className="p-4 text-slate-600 dark:text-slate-400">{item.SDT}</td>
-                {activeSubTab === "doctors" ? (
-                  <>
-                    <td className="p-4 text-slate-600 dark:text-slate-400">{item.HocVi}</td>
-                    <td className="p-4 text-slate-600 dark:text-slate-400">{specialties.find(s => s.MaChuyenKhoa === item.MaChuyenKhoa)?.TenChuyenKhoa}</td>
-                  </>
-                ) : (
-                  <td className="p-4 text-slate-600 dark:text-slate-400">{item.ChucVu}</td>
-                )}
-                <td className="p-4 text-slate-500 dark:text-slate-500 font-mono text-xs">{item.MaTaiKhoan}</td>
-                <td className="p-4">
-                  <button onClick={(e) => { e.stopPropagation(); openEdit(item); }} className="text-emerald-600 hover:text-emerald-800 text-sm font-medium flex items-center gap-1 inline-flex mr-3">
-                    <Edit className="w-4 h-4" /> Sửa
-                  </button>
-                  <button onClick={(e) => { e.stopPropagation(); handleDelete(activeSubTab === "doctors" ? "doctors" : "staffs", item.MaBacSi || item.MaNhanVien); }} className="text-red-500 hover:text-red-700 text-sm font-medium flex items-center gap-1 inline-flex">
-                    <Trash2 className="w-4 h-4" /> Xóa
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+              <div className="space-y-1">
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-1.5 font-medium">
+                  <span className="opacity-70">📞</span> {item.SDT || 'Chưa cập nhật SĐT'}
+                </p>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-1.5 font-mono">
+                  <span className="opacity-70">👤</span> {item.MaTaiKhoan || 'Chưa liên kết TK'}
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-5 pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="flex gap-4">
+                <button onClick={(e) => { e.stopPropagation(); openEdit(item); }} className="text-emerald-600 hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300 text-xs font-bold flex items-center gap-1 uppercase tracking-wider">
+                  <Edit className="w-3 h-3" /> Sửa
+                </button>
+                <button onClick={(e) => { e.stopPropagation(); handleDelete(activeSubTab === "doctors" ? "doctors" : "staffs", item.MaBacSi || item.MaNhanVien); }} className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 text-xs font-bold flex items-center gap-1 uppercase tracking-wider">
+                  <Trash2 className="w-3 h-3" /> Xóa
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
 
       {viewingProfile && (

@@ -193,69 +193,69 @@ export function AdminFacilitiesTab({ token }: { token: string }) {
       )}
 
       {/* --- DANH SÁCH --- */}
-      <div className="overflow-x-auto bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-sm border-b border-slate-200 dark:border-slate-800">
+      <div className="overflow-x-auto bg-white dark:bg-slate-900 rounded-sm border border-slate-200 dark:border-slate-800 shadow-sm">
+        <table className="w-full text-left text-sm">
+          <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 uppercase text-[11px] font-semibold border-b border-slate-200 dark:border-slate-800">
+            <tr>
               {activeSubTab === "specialties" ? (
                 <>
-                  <th className="p-4 font-medium rounded-tl-xl">Mã CK</th>
-                  <th className="p-4 font-medium">Tên chuyên khoa</th>
-                  <th className="p-4 font-medium">Mô tả</th>
-                  <th className="p-4 font-medium">Trạng thái</th>
-                  <th className="p-4 font-medium rounded-tr-xl">Hành động</th>
+                  <th className="px-4 py-3">Mã CK</th>
+                  <th className="px-4 py-3">Tên chuyên khoa</th>
+                  <th className="px-4 py-3">Mô tả</th>
+                  <th className="px-4 py-3 text-center">Trạng thái</th>
+                  <th className="px-4 py-3 text-right">Hành động</th>
                 </>
               ) : (
                 <>
-                  <th className="p-4 font-medium rounded-tl-xl">Mã Phòng</th>
-                  <th className="p-4 font-medium">Tên phòng</th>
-                  <th className="p-4 font-medium">Chuyên khoa</th>
-                  <th className="p-4 font-medium">Vị trí</th>
-                  <th className="p-4 font-medium">Trạng thái</th>
-                  <th className="p-4 font-medium rounded-tr-xl">Hành động</th>
+                  <th className="px-4 py-3">Mã Phòng</th>
+                  <th className="px-4 py-3">Tên phòng</th>
+                  <th className="px-4 py-3">Chuyên khoa</th>
+                  <th className="px-4 py-3">Vị trí</th>
+                  <th className="px-4 py-3 text-center">Trạng thái</th>
+                  <th className="px-4 py-3 text-right">Hành động</th>
                 </>
               )}
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-300">
+          <tbody className="divide-y divide-slate-100 dark:divide-slate-800/50 text-slate-700 dark:text-slate-300">
             {activeSubTab === "specialties" ? specialties.map(item => (
-              <tr key={item.MaChuyenKhoa} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
-                <td className="p-4 font-medium text-slate-800 dark:text-slate-200">{item.MaChuyenKhoa}</td>
-                <td className="p-4 font-medium">{item.TenChuyenKhoa}</td>
-                <td className="p-4 text-slate-500 dark:text-slate-400">{item.MoTa}</td>
-                <td className="p-4">
-                  {item.TrangThai ? <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700"><CheckCircle2 className="w-3 h-3" /> Hoạt động</span> : <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-rose-100 text-rose-700"><Ban className="w-3 h-3" /> Tạm ngưng</span>}
+              <tr key={item.MaChuyenKhoa} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                <td className="px-4 py-3 font-mono text-xs text-slate-500">{item.MaChuyenKhoa}</td>
+                <td className="px-4 py-3 font-bold text-slate-800 dark:text-slate-200">{item.TenChuyenKhoa}</td>
+                <td className="px-4 py-3 text-slate-500 dark:text-slate-400 max-w-xs truncate" title={item.MoTa}>{item.MoTa}</td>
+                <td className="px-4 py-3 text-center">
+                  {item.TrangThai ? <span className="inline-flex items-center gap-1 px-2 py-1 rounded-sm text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800"><CheckCircle2 className="w-3 h-3" /> Hoạt động</span> : <span className="inline-flex items-center gap-1 px-2 py-1 rounded-sm text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 dark:bg-rose-900/30 dark:text-rose-400 dark:border-rose-800"><Ban className="w-3 h-3" /> Tạm ngưng</span>}
                 </td>
-                <td className="p-4">
-                  <button onClick={() => toggleStatus("specialties", item.MaChuyenKhoa, item.TrangThai)} className="text-blue-600 hover:text-blue-800 text-sm font-medium mr-3">
+                <td className="px-4 py-3 text-right">
+                  <button onClick={() => toggleStatus("specialties", item.MaChuyenKhoa, item.TrangThai)} className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium mr-4 text-xs">
                     Đổi TT
                   </button>
-                  <button onClick={() => openEditSpecialty(item)} className="text-emerald-600 hover:text-emerald-800 text-sm font-medium mr-3 flex items-center gap-1 inline-flex">
-                    <Edit className="w-4 h-4" /> Sửa
+                  <button onClick={() => openEditSpecialty(item)} className="text-emerald-600 hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300 font-medium mr-4 text-xs">
+                    Sửa
                   </button>
-                  <button onClick={() => handleDelete("specialties", item.MaChuyenKhoa)} className="text-red-500 hover:text-red-700 text-sm font-medium flex items-center gap-1 inline-flex">
-                    <Trash2 className="w-4 h-4" /> Xóa
+                  <button onClick={() => handleDelete("specialties", item.MaChuyenKhoa)} className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 font-medium text-xs">
+                    Xóa
                   </button>
                 </td>
               </tr>
             )) : rooms.map(item => (
-              <tr key={item.MaPhong} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
-                <td className="p-4 font-medium text-slate-800 dark:text-slate-200">{item.MaPhong}</td>
-                <td className="p-4 font-bold text-slate-900 dark:text-slate-100">{item.TenPhong}</td>
-                <td className="p-4 text-slate-500 dark:text-slate-400">{specialties.find(s => s.MaChuyenKhoa === item.MaChuyenKhoa)?.TenChuyenKhoa || item.MaChuyenKhoa}</td>
-                <td className="p-4">Tầng {item.Tang} - Khu {item.Khu}</td>
-                <td className="p-4">
-                  {item.TrangThai ? <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700"><CheckCircle2 className="w-3 h-3" /> Hoạt động</span> : <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-rose-100 text-rose-700"><Ban className="w-3 h-3" /> Tạm ngưng</span>}
+              <tr key={item.MaPhong} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                <td className="px-4 py-3 font-mono text-xs text-slate-500">{item.MaPhong}</td>
+                <td className="px-4 py-3 font-bold text-slate-800 dark:text-slate-200">{item.TenPhong}</td>
+                <td className="px-4 py-3 text-slate-600 dark:text-slate-400 font-medium">{specialties.find(s => s.MaChuyenKhoa === item.MaChuyenKhoa)?.TenChuyenKhoa || item.MaChuyenKhoa}</td>
+                <td className="px-4 py-3">Tầng {item.Tang} - Khu {item.Khu}</td>
+                <td className="px-4 py-3 text-center">
+                  {item.TrangThai ? <span className="inline-flex items-center gap-1 px-2 py-1 rounded-sm text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800"><CheckCircle2 className="w-3 h-3" /> Hoạt động</span> : <span className="inline-flex items-center gap-1 px-2 py-1 rounded-sm text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 dark:bg-rose-900/30 dark:text-rose-400 dark:border-rose-800"><Ban className="w-3 h-3" /> Tạm ngưng</span>}
                 </td>
-                <td className="p-4">
-                  <button onClick={() => toggleStatus("rooms", item.MaPhong, item.TrangThai)} className="text-blue-600 hover:text-blue-800 text-sm font-medium mr-3">
+                <td className="px-4 py-3 text-right">
+                  <button onClick={() => toggleStatus("rooms", item.MaPhong, item.TrangThai)} className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium mr-4 text-xs">
                     Đổi TT
                   </button>
-                  <button onClick={() => openEditRoom(item)} className="text-emerald-600 hover:text-emerald-800 text-sm font-medium mr-3 flex items-center gap-1 inline-flex">
-                    <Edit className="w-4 h-4" /> Sửa
+                  <button onClick={() => openEditRoom(item)} className="text-emerald-600 hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300 font-medium mr-4 text-xs">
+                    Sửa
                   </button>
-                  <button onClick={() => handleDelete("rooms", item.MaPhong)} className="text-red-500 hover:text-red-700 text-sm font-medium flex items-center gap-1 inline-flex">
-                    <Trash2 className="w-4 h-4" /> Xóa
+                  <button onClick={() => handleDelete("rooms", item.MaPhong)} className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 font-medium text-xs">
+                    Xóa
                   </button>
                 </td>
               </tr>

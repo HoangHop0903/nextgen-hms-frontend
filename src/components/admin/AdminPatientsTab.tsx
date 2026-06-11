@@ -136,80 +136,89 @@ export function AdminPatientsTab({ token }: { token: string }) {
         </div>
       )}
 
-      <div className="overflow-x-auto bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-sm border-b border-slate-200 dark:border-slate-800">
-              {activeSubTab === "patients" ? (
-                <>
-                  <th className="p-4 font-medium">Mã BN</th>
-                  <th className="p-4 font-medium">Họ Tên</th>
-                  <th className="p-4 font-medium">Ngày Sinh</th>
-                  <th className="p-4 font-medium">Giới Tính</th>
-                  <th className="p-4 font-medium">Điện Thoại</th>
-                  <th className="p-4 font-medium">Hành động</th>
-                </>
-              ) : (
-                <>
-                  <th className="p-4 font-medium">Mã Lịch</th>
-                  <th className="p-4 font-medium">Bệnh Nhân</th>
-                  <th className="p-4 font-medium">Ca Khám</th>
-                  <th className="p-4 font-medium">Ngày Khám</th>
-                  <th className="p-4 font-medium">Trạng Thái</th>
-                  <th className="p-4 font-medium">Hành động</th>
-                </>
-              )}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-300">
-            {activeSubTab === "patients" ? patients.map(item => (
-              <tr key={item.MaBenhNhan} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50">
-                <td className="p-4 font-medium text-slate-800 dark:text-slate-200">{item.MaBenhNhan}</td>
-                <td className="p-4 font-bold text-slate-700 dark:text-slate-300">{item.HoTen}</td>
-                <td className="p-4 text-slate-600 dark:text-slate-400">{item.NgaySinh}</td>
-                <td className="p-4 text-slate-600 dark:text-slate-400">{item.GioiTinh}</td>
-                <td className="p-4 text-slate-600 dark:text-slate-400">{item.DienThoai}</td>
-                <td className="p-4">
-                  <button onClick={() => setSelectedPatient(item.MaBenhNhan)} className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center gap-1 inline-flex mr-3">
-                    <FileText className="w-4 h-4" /> Chi tiết
+      {/* --- DANH SÁCH --- */}
+      {activeSubTab === "patients" ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {patients.map(item => (
+            <div key={item.MaBenhNhan} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-sm shadow-sm p-5 flex flex-col group hover:border-indigo-500 dark:hover:border-indigo-400 hover:shadow-md transition-all">
+              <div className="flex items-start gap-4 mb-4">
+                <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-lg font-bold text-slate-500 dark:text-slate-400 uppercase flex-shrink-0">
+                  {item.HoTen.charAt(0)}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-bold text-slate-800 dark:text-slate-100 text-base leading-tight mb-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors truncate" title={item.HoTen}>{item.HoTen}</h4>
+                  <span className="text-[10px] font-mono text-slate-500 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-2 py-0.5 rounded-sm inline-block">
+                    {item.MaBenhNhan}
+                  </span>
+                </div>
+              </div>
+              <div className="space-y-1.5 mb-5 flex-1">
+                <p className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-2">
+                  <span className="opacity-60 w-4">🎂</span> {item.NgaySinh} <span className="text-[10px] font-bold px-1.5 py-0.5 bg-slate-100 dark:bg-slate-800 rounded-sm">{item.GioiTinh}</span>
+                </p>
+                <p className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-2">
+                  <span className="opacity-60 w-4">📞</span> {item.DienThoai || 'Chưa cập nhật SĐT'}
+                </p>
+              </div>
+              <div className="flex justify-between items-center pt-4 border-t border-slate-100 dark:border-slate-800">
+                <button onClick={() => setSelectedPatient(item.MaBenhNhan)} className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-[11px] font-bold flex items-center gap-1 uppercase tracking-wider bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded-sm border border-blue-100 dark:border-blue-800/50">
+                  <FileText className="w-3 h-3" /> Hồ sơ
+                </button>
+                <div className="flex gap-3">
+                  <button onClick={() => openEdit(item)} className="text-emerald-600 hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300 text-xs font-bold flex items-center gap-1 uppercase tracking-wider">
+                    <Edit className="w-3 h-3" /> Sửa
                   </button>
-                  <button onClick={() => openEdit(item)} className="text-emerald-600 hover:text-emerald-800 text-sm font-medium flex items-center gap-1 inline-flex mr-3">
-                    <Edit className="w-4 h-4" /> Sửa
+                  <button onClick={() => handleDelete("patients", item.MaBenhNhan)} className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 text-xs font-bold flex items-center gap-1 uppercase tracking-wider">
+                    <Trash2 className="w-3 h-3" /> Xóa
                   </button>
-                  <button onClick={() => handleDelete("patients", item.MaBenhNhan)} className="text-red-500 hover:text-red-700 text-sm font-medium flex items-center gap-1 inline-flex">
-                    <Trash2 className="w-4 h-4" /> Xóa
-                  </button>
-                </td>
-              </tr>
-            )) : bookings.map(item => (
-              <tr key={item.MaDatLich} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50">
-                <td className="p-4 font-medium text-slate-800 dark:text-slate-200">{item.MaDatLich}</td>
-                <td className="p-4 text-slate-700 dark:text-slate-300 font-medium">{item.TenBenhNhan}</td>
-                <td className="p-4 text-slate-600 dark:text-slate-400 font-mono text-xs">{item.KhungGio ? `${item.KhungGio} (${item.CaKham})` : item.CaKham}</td>
-                <td className="p-4 text-slate-600 dark:text-slate-400">{item.NgayKham}</td>
-                <td className="p-4">
-                  <span className={`px-2 py-1 rounded text-xs font-bold ${
-                    item.TrangThai === 'Đã xác nhận' ? 'bg-blue-100 text-blue-700' :
-                    item.TrangThai === 'Chờ xác nhận' ? 'bg-amber-100 text-amber-700' : 
-                    item.TrangThai === 'Hoàn thành' ? 'bg-emerald-100 text-emerald-700' : 
-                    'bg-rose-100 text-rose-700'
-                  }`}>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {bookings.map(item => {
+            const statusColor = item.TrangThai === 'Đã xác nhận' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                               item.TrangThai === 'Chờ xác nhận' ? 'bg-amber-50 text-amber-700 border-amber-200' : 
+                               item.TrangThai === 'Hoàn thành' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 
+                               'bg-rose-50 text-rose-700 border-rose-200';
+            const leftBorder = item.TrangThai === 'Đã xác nhận' ? 'border-l-blue-500' :
+                               item.TrangThai === 'Chờ xác nhận' ? 'border-l-amber-500' : 
+                               item.TrangThai === 'Hoàn thành' ? 'border-l-emerald-500' : 
+                               'border-l-rose-500';
+
+            return (
+              <div key={item.MaDatLich} className={`bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-sm shadow-sm p-4 flex flex-col border-l-4 ${leftBorder} hover:shadow-md transition-shadow`}>
+                <div className="flex justify-between items-start mb-3">
+                  <span className="text-[10px] font-mono text-slate-500 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-2 py-0.5 rounded-sm">
+                    {item.MaDatLich}
+                  </span>
+                  <span className={`px-2 py-1 rounded-sm text-[10px] font-bold uppercase tracking-wider border ${statusColor} dark:bg-opacity-20`}>
                     {item.TrangThai}
                   </span>
-                </td>
-                <td className="p-4">
-                  <button onClick={() => openEdit(item)} className="text-emerald-600 hover:text-emerald-800 text-sm font-medium flex items-center gap-1 inline-flex mr-3">
-                    <Edit className="w-4 h-4" /> Sửa
+                </div>
+                
+                <h4 className="font-bold text-slate-800 dark:text-slate-100 text-base mb-1 truncate" title={item.TenBenhNhan}>{item.TenBenhNhan}</h4>
+                
+                <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 rounded-sm p-2 mb-4 mt-2">
+                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">{item.NgayKham}</p>
+                  <p className="text-xs font-medium text-slate-600 dark:text-slate-400 mt-0.5">{item.KhungGio ? `${item.KhungGio} (${item.CaKham})` : item.CaKham}</p>
+                </div>
+                
+                <div className="flex justify-end gap-4 pt-3 border-t border-slate-100 dark:border-slate-800 mt-auto">
+                  <button onClick={() => openEdit(item)} className="text-emerald-600 hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300 text-xs font-bold flex items-center gap-1 uppercase tracking-wider">
+                    <Edit className="w-3 h-3" /> Sửa
                   </button>
-                  <button onClick={() => handleDelete("bookings", item.MaDatLich)} className="text-red-500 hover:text-red-700 text-sm font-medium flex items-center gap-1 inline-flex">
-                    <Trash2 className="w-4 h-4" /> Xóa
+                  <button onClick={() => handleDelete("bookings", item.MaDatLich)} className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 text-xs font-bold flex items-center gap-1 uppercase tracking-wider">
+                    <Trash2 className="w-3 h-3" /> Xóa
                   </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {selectedPatient && (
         <PatientDetailsModal 
