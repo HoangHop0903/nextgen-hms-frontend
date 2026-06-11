@@ -19,7 +19,7 @@ export function BookingApprovalTab({ token }: { token: string }) {
       const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/staff/bookings", {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setBookings(res.data.filter((b: any) => b.TrangThai === "ChoDuyet"));
+      setBookings(res.data.filter((b: any) => b.TrangThai === "Chờ xác nhận"));
     } catch (e) {
       console.error(e);
     }
@@ -78,14 +78,14 @@ export function BookingApprovalTab({ token }: { token: string }) {
                     <div className="flex items-center justify-end gap-2">
                       <button 
                         disabled={loading}
-                        onClick={() => handleUpdateStatus(b.MaDatLich, "DaDuyet")}
+                        onClick={() => handleUpdateStatus(b.MaDatLich, "Đã xác nhận")}
                         className="p-1.5 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors" title="Duyệt"
                       >
                         <CheckCircle2 className="w-5 h-5" />
                       </button>
                       <button 
                         disabled={loading}
-                        onClick={() => handleUpdateStatus(b.MaDatLich, "TuChoi")}
+                        onClick={() => handleUpdateStatus(b.MaDatLich, "Đã hủy")}
                         className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Từ chối"
                       >
                         <XCircle className="w-5 h-5" />
