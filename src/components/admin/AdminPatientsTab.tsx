@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Users, Trash2, CalendarCheck, CheckCircle2, Edit, FileText } from "lucide-react";
+import { Users, Trash2, CalendarCheck, CheckCircle2, Edit, FileText, X } from "lucide-react";
 import { PatientDetailsModal } from "../doctor/PatientDetailsModal";
 
 export function AdminPatientsTab({ token }: { token: string }) {
@@ -92,46 +92,61 @@ export function AdminPatientsTab({ token }: { token: string }) {
       {msg && <div className="mb-4 p-3 bg-emerald-50 text-emerald-700 rounded-lg flex items-center gap-2"><CheckCircle2 className="w-5 h-5"/> {msg}</div>}
 
       {editingId && (
-        <div className="mb-8 p-6 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 max-w-4xl">
-          <h3 className="font-bold text-slate-700 dark:text-slate-200 mb-4">Sửa {activeSubTab === "patients" ? "Thông Tin Bệnh Nhân" : "Trạng Thái Đặt Lịch"}</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            {activeSubTab === "patients" ? (
-              <>
-                <div>
-                  <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Họ Tên</label>
-                  <input type="text" value={editPatient.HoTen} onChange={e => setEditPatient({...editPatient, HoTen: e.target.value})} className="w-full p-2 border dark:border-slate-700 rounded-lg outline-none focus:border-teal-500 dark:bg-slate-800 dark:text-slate-200" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Ngày Sinh</label>
-                  <input type="date" value={editPatient.NgaySinh} onChange={e => setEditPatient({...editPatient, NgaySinh: e.target.value})} className="w-full p-2 border dark:border-slate-700 rounded-lg outline-none focus:border-teal-500 dark:bg-slate-800 dark:text-slate-200" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Giới Tính</label>
-                  <select value={editPatient.GioiTinh} onChange={e => setEditPatient({...editPatient, GioiTinh: e.target.value})} className="w-full p-2 border dark:border-slate-700 rounded-lg outline-none focus:border-teal-500 dark:bg-slate-800 dark:text-slate-200">
-                    <option value="Nam">Nam</option>
-                    <option value="Nữ">Nữ</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Điện Thoại</label>
-                  <input type="text" value={editPatient.DienThoai} onChange={e => setEditPatient({...editPatient, DienThoai: e.target.value})} className="w-full p-2 border dark:border-slate-700 rounded-lg outline-none focus:border-teal-500 dark:bg-slate-800 dark:text-slate-200" />
-                </div>
-              </>
-            ) : (
-              <div>
-                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Trạng Thái</label>
-                <select value={editBooking.TrangThai} onChange={e => setEditBooking({...editBooking, TrangThai: e.target.value})} className="w-full p-2 border dark:border-slate-700 rounded-lg outline-none focus:border-teal-500 dark:bg-slate-800 dark:text-slate-200">
-                  <option value="Chờ xác nhận">Chờ xác nhận</option>
-                  <option value="Đã xác nhận">Đã xác nhận</option>
-                  <option value="Hoàn thành">Hoàn thành</option>
-                  <option value="Đã hủy">Đã hủy</option>
-                </select>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-lg shadow-xl w-full max-w-3xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <div className="flex justify-between items-center p-4 border-b border-slate-100 dark:border-slate-800">
+              <h3 className="font-bold text-lg text-slate-800 dark:text-white">
+                Sửa {activeSubTab === "patients" ? "Thông Tin Bệnh Nhân" : "Trạng Thái Đặt Lịch"}
+              </h3>
+              <button 
+                onClick={() => setEditingId(null)}
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <div className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                {activeSubTab === "patients" ? (
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Họ Tên</label>
+                      <input type="text" value={editPatient.HoTen} onChange={e => setEditPatient({...editPatient, HoTen: e.target.value})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-slate-900 dark:text-slate-200 transition-all" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Ngày Sinh</label>
+                      <input type="date" value={editPatient.NgaySinh} onChange={e => setEditPatient({...editPatient, NgaySinh: e.target.value})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-slate-900 dark:text-slate-200 transition-all" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Giới Tính</label>
+                      <select value={editPatient.GioiTinh} onChange={e => setEditPatient({...editPatient, GioiTinh: e.target.value})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-slate-900 dark:text-slate-200 transition-all">
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Điện Thoại</label>
+                      <input type="text" value={editPatient.DienThoai} onChange={e => setEditPatient({...editPatient, DienThoai: e.target.value})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-slate-900 dark:text-slate-200 transition-all" />
+                    </div>
+                  </>
+                ) : (
+                  <div>
+                    <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Trạng Thái</label>
+                    <select value={editBooking.TrangThai} onChange={e => setEditBooking({...editBooking, TrangThai: e.target.value})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-slate-900 dark:text-slate-200 transition-all">
+                      <option value="Chờ xác nhận">Chờ xác nhận</option>
+                      <option value="Đã xác nhận">Đã xác nhận</option>
+                      <option value="Hoàn thành">Hoàn thành</option>
+                      <option value="Đã hủy">Đã hủy</option>
+                    </select>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-          <div className="flex gap-2">
-            <button onClick={handleUpdate} className="bg-teal-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-teal-700">Lưu thay đổi</button>
-            <button onClick={() => setEditingId(null)} className="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-lg font-medium hover:bg-slate-300 dark:hover:bg-slate-700">Hủy</button>
+              <div className="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+                <button onClick={() => setEditingId(null)} className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-5 py-2.5 rounded-lg font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">Hủy</button>
+                <button onClick={handleUpdate} className="bg-teal-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-teal-700 transition-colors shadow-sm">Lưu thay đổi</button>
+              </div>
+            </div>
           </div>
         </div>
       )}

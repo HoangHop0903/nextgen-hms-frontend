@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Pill, DollarSign, Plus, CheckCircle2, Ban, Trash2, Edit } from "lucide-react";
+import { Pill, DollarSign, Plus, CheckCircle2, Ban, Trash2, Edit, X } from "lucide-react";
 
 export function AdminPharmacyTab({ token }: { token: string }) {
   const [medicines, setMedicines] = useState<any[]>([]);
@@ -143,65 +143,90 @@ export function AdminPharmacyTab({ token }: { token: string }) {
         <button onClick={() => setActiveSubTab("prices")} className={`px-4 py-2 font-medium border-b-2 transition-colors ${activeSubTab === "prices" ? "border-indigo-500 text-indigo-600 dark:text-indigo-400" : "border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"}`}>Bảng giá Dịch vụ</button>
       </div>
 
-      {/* --- FORM THÊM MỚI / SỬA --- */}
+      {/* --- FORM THÊM MỚI / SỬA (MODAL) --- */}
       {(showForm || editingItem) && (
-        <div className="mb-8 p-6 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
-          <h3 className="font-bold text-slate-700 dark:text-slate-200 mb-4">{editingItem ? "Sửa" : "Thêm"} {activeSubTab === "medicines" ? "Thuốc" : "Dịch Vụ"} {editingItem ? (editingItem.TenThuoc || editingItem.TenDichVu) : "Mới"}</h3>
-          
-          {activeSubTab === "medicines" ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Tên thuốc</label>
-                <input type="text" value={newMed.TenThuoc} onChange={e => setNewMed({...newMed, TenThuoc: e.target.value})} className="w-full p-2 border dark:border-slate-700 rounded-lg outline-none focus:border-indigo-500 dark:bg-slate-800 dark:text-slate-200" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Đơn vị tính</label>
-                <select value={newMed.DonViTinh} onChange={e => setNewMed({...newMed, DonViTinh: e.target.value})} className="w-full p-2 border dark:border-slate-700 rounded-lg outline-none focus:border-indigo-500 dark:bg-slate-800 dark:text-slate-200">
-                  <option value="Viên">Viên</option>
-                  <option value="Vỉ">Vỉ</option>
-                  <option value="Hộp">Hộp</option>
-                  <option value="Lọ">Lọ</option>
-                  <option value="Ống">Ống</option>
-                  <option value="Gói">Gói</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Giá thuốc (VNĐ)</label>
-                <input type="number" value={newMed.GiaThuoc} onChange={e => setNewMed({...newMed, GiaThuoc: parseFloat(e.target.value)})} className="w-full p-2 border dark:border-slate-700 rounded-lg outline-none focus:border-indigo-500 dark:bg-slate-800 dark:text-slate-200" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Cách dùng (Ghi chú)</label>
-                <input type="text" value={newMed.CachDung} onChange={e => setNewMed({...newMed, CachDung: e.target.value})} className="w-full p-2 border dark:border-slate-700 rounded-lg outline-none focus:border-indigo-500 dark:bg-slate-800 dark:text-slate-200" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-lg shadow-xl w-full max-w-3xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <div className="flex justify-between items-center p-4 border-b border-slate-100 dark:border-slate-800">
+              <h3 className="font-bold text-lg text-slate-800 dark:text-white">
+                {editingItem ? "Sửa" : "Thêm"} {activeSubTab === "medicines" ? "Thuốc" : "Dịch Vụ"} {editingItem ? (editingItem.TenThuoc || editingItem.TenDichVu) : "Mới"}
+              </h3>
+              <button 
+                onClick={() => { setShowForm(false); setEditingItem(null); setNewMed({TenThuoc:'', DonViTinh:'Viên', GiaThuoc:0, CachDung:''}); setNewPrice({MaChuyenKhoa:'', TenDichVu:'', GiaKham:0}); setMsg(""); }}
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <div className="p-6">
+              {activeSubTab === "medicines" ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Tên thuốc</label>
+                    <input type="text" value={newMed.TenThuoc} onChange={e => setNewMed({...newMed, TenThuoc: e.target.value})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white dark:bg-slate-800 dark:text-slate-200 transition-all" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Đơn vị tính</label>
+                    <select value={newMed.DonViTinh} onChange={e => setNewMed({...newMed, DonViTinh: e.target.value})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white dark:bg-slate-800 dark:text-slate-200 transition-all">
+                      <option value="Viên">Viên</option>
+                      <option value="Vỉ">Vỉ</option>
+                      <option value="Hộp">Hộp</option>
+                      <option value="Lọ">Lọ</option>
+                      <option value="Ống">Ống</option>
+                      <option value="Gói">Gói</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Giá thuốc (VNĐ)</label>
+                    <input type="number" value={newMed.GiaThuoc} onChange={e => setNewMed({...newMed, GiaThuoc: parseFloat(e.target.value)})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white dark:bg-slate-800 dark:text-slate-200 transition-all" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Cách dùng (Ghi chú)</label>
+                    <input type="text" value={newMed.CachDung} onChange={e => setNewMed({...newMed, CachDung: e.target.value})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white dark:bg-slate-800 dark:text-slate-200 transition-all" />
+                  </div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 gap-6 mb-6">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Chuyên khoa</label>
+                    <select value={newPrice.MaChuyenKhoa} onChange={e => setNewPrice({...newPrice, MaChuyenKhoa: e.target.value})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white dark:bg-slate-800 dark:text-slate-200 transition-all">
+                      <option value="">-- Chọn chuyên khoa --</option>
+                      {specialties.map(s => <option key={s.MaChuyenKhoa} value={s.MaChuyenKhoa}>{s.TenChuyenKhoa}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Tên dịch vụ</label>
+                    <input type="text" value={newPrice.TenDichVu} onChange={e => setNewPrice({...newPrice, TenDichVu: e.target.value})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white dark:bg-slate-800 dark:text-slate-200 transition-all" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Giá khám (VNĐ)</label>
+                    <input type="number" value={newPrice.GiaKham} onChange={e => setNewPrice({...newPrice, GiaKham: parseFloat(e.target.value)})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 bg-white dark:bg-slate-800 dark:text-slate-200 transition-all" />
+                  </div>
+                </div>
+              )}
+              
+              <div className="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+                <button 
+                  onClick={() => { setShowForm(false); setEditingItem(null); setNewMed({TenThuoc:'', DonViTinh:'Viên', GiaThuoc:0, CachDung:''}); setNewPrice({MaChuyenKhoa:'', TenDichVu:'', GiaKham:0}); setMsg(""); }} 
+                  className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-5 py-2.5 rounded-lg font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                >
+                  Hủy
+                </button>
+                <button 
+                  onClick={() => {
+                    if (editingItem) {
+                      activeSubTab === "medicines" ? handleUpdateMed() : handleUpdatePrice();
+                    } else {
+                      activeSubTab === "medicines" ? handleCreateMed() : handleCreatePrice();
+                    }
+                  }} 
+                  className="bg-indigo-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-indigo-700 transition-colors shadow-sm"
+                >
+                  {editingItem ? "Lưu thay đổi" : "Tạo mới"}
+                </button>
               </div>
             </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Chuyên khoa</label>
-                <select value={newPrice.MaChuyenKhoa} onChange={e => setNewPrice({...newPrice, MaChuyenKhoa: e.target.value})} className="w-full p-2 border dark:border-slate-700 rounded-lg outline-none focus:border-indigo-500 dark:bg-slate-800 dark:text-slate-200">
-                  <option value="">-- Chọn chuyên khoa --</option>
-                  {specialties.map(s => <option key={s.MaChuyenKhoa} value={s.MaChuyenKhoa}>{s.TenChuyenKhoa}</option>)}
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Tên dịch vụ</label>
-                <input type="text" value={newPrice.TenDichVu} onChange={e => setNewPrice({...newPrice, TenDichVu: e.target.value})} className="w-full p-2 border dark:border-slate-700 rounded-lg outline-none focus:border-indigo-500 dark:bg-slate-800 dark:text-slate-200" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Giá khám (VNĐ)</label>
-                <input type="number" value={newPrice.GiaKham} onChange={e => setNewPrice({...newPrice, GiaKham: parseFloat(e.target.value)})} className="w-full p-2 border dark:border-slate-700 rounded-lg outline-none focus:border-indigo-500 dark:bg-slate-800 dark:text-slate-200" />
-              </div>
-            </div>
-          )}
-          <div className="flex gap-2">
-            <button onClick={() => {
-              if (editingItem) {
-                activeSubTab === "medicines" ? handleUpdateMed() : handleUpdatePrice();
-              } else {
-                activeSubTab === "medicines" ? handleCreateMed() : handleCreatePrice();
-              }
-            }} className="bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700">Lưu thông tin</button>
-            <button onClick={() => { setShowForm(false); setEditingItem(null); setNewMed({TenThuoc:'', DonViTinh:'Viên', GiaThuoc:0, CachDung:''}); setNewPrice({MaChuyenKhoa:'', TenDichVu:'', GiaKham:0}); setMsg(""); }} className="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-lg font-medium hover:bg-slate-300 dark:hover:bg-slate-700">Hủy</button>
           </div>
         </div>
       )}

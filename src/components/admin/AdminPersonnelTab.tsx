@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { UserCog, Plus, Trash2, Edit, UserSquare2, BriefcaseMedical, CheckCircle2, Users } from "lucide-react";
+import { UserCog, Plus, Trash2, Edit, UserSquare2, BriefcaseMedical, CheckCircle2, Users, X } from "lucide-react";
 import { PersonnelProfileModal } from "../shared/PersonnelProfileModal";
 
 export function AdminPersonnelTab({ token }: { token: string }) {
@@ -123,49 +123,63 @@ export function AdminPersonnelTab({ token }: { token: string }) {
       </div>
 
       {(showForm || editingId) && (
-        <div className="mb-8 p-6 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 max-w-4xl">
-          <h3 className="font-bold text-slate-700 dark:text-slate-200 mb-4">{editingId ? "Sửa" : "Thêm"} {activeSubTab === "doctors" ? "Bác Sĩ" : "Nhân Viên"}</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Tài khoản liên kết</label>
-              <select value={activeSubTab === "doctors" ? newDoctor.MaTaiKhoan : newStaff.MaTaiKhoan} onChange={e => activeSubTab === "doctors" ? setNewDoctor({...newDoctor, MaTaiKhoan: e.target.value}) : setNewStaff({...newStaff, MaTaiKhoan: e.target.value})} className="w-full p-2 border dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:border-purple-500 text-slate-900 dark:text-slate-200">
-                <option value="">-- Chọn tài khoản --</option>
-                {accounts.filter(a => activeSubTab === "doctors" ? a.VaiTro === "BACSI" : a.VaiTro === "NHANVIEN").map(a => <option key={a.MaTaiKhoan} value={a.MaTaiKhoan}>{a.TenDangNhap} ({a.Email})</option>)}
-              </select>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-lg shadow-xl w-full max-w-3xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <div className="flex justify-between items-center p-4 border-b border-slate-100 dark:border-slate-800">
+              <h3 className="font-bold text-lg text-slate-800 dark:text-white">
+                {editingId ? "Sửa" : "Thêm"} {activeSubTab === "doctors" ? "Bác Sĩ" : "Nhân Viên"}
+              </h3>
+              <button 
+                onClick={() => { setShowForm(false); setEditingId(null); setNewDoctor({ MaTaiKhoan: "", MaChuyenKhoa: "", HoTen: "", HocVi: "BS", SDT: "" }); setNewStaff({ MaTaiKhoan: "", HoTen: "", ChucVu: "Lễ tân", SDT: "" }); setMsg(""); }}
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Họ tên</label>
-              <input type="text" value={activeSubTab === "doctors" ? newDoctor.HoTen : newStaff.HoTen} onChange={e => activeSubTab === "doctors" ? setNewDoctor({...newDoctor, HoTen: e.target.value}) : setNewStaff({...newStaff, HoTen: e.target.value})} className="w-full p-2 border dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:border-purple-500 text-slate-900 dark:text-slate-200" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Số điện thoại</label>
-              <input type="text" value={activeSubTab === "doctors" ? newDoctor.SDT : newStaff.SDT} onChange={e => activeSubTab === "doctors" ? setNewDoctor({...newDoctor, SDT: e.target.value}) : setNewStaff({...newStaff, SDT: e.target.value})} className="w-full p-2 border dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:border-purple-500 text-slate-900 dark:text-slate-200" />
-            </div>
-
-            {activeSubTab === "doctors" ? (
-              <>
+            <div className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Học vị</label>
-                  <input type="text" value={newDoctor.HocVi} onChange={e => setNewDoctor({...newDoctor, HocVi: e.target.value})} placeholder="VD: ThS.BS, TS.BS..." className="w-full p-2 border dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:border-purple-500 text-slate-900 dark:text-slate-200" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Chuyên khoa</label>
-                  <select value={newDoctor.MaChuyenKhoa} onChange={e => setNewDoctor({...newDoctor, MaChuyenKhoa: e.target.value})} className="w-full p-2 border dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:border-purple-500 text-slate-900 dark:text-slate-200">
-                    <option value="">-- Chọn --</option>
-                    {specialties.map(s => <option key={s.MaChuyenKhoa} value={s.MaChuyenKhoa}>{s.TenChuyenKhoa}</option>)}
+                  <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Tài khoản liên kết</label>
+                  <select value={activeSubTab === "doctors" ? newDoctor.MaTaiKhoan : newStaff.MaTaiKhoan} onChange={e => activeSubTab === "doctors" ? setNewDoctor({...newDoctor, MaTaiKhoan: e.target.value}) : setNewStaff({...newStaff, MaTaiKhoan: e.target.value})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-slate-900 dark:text-slate-200 transition-all">
+                    <option value="">-- Chọn tài khoản --</option>
+                    {accounts.filter(a => activeSubTab === "doctors" ? a.VaiTro === "BACSI" : a.VaiTro === "NHANVIEN").map(a => <option key={a.MaTaiKhoan} value={a.MaTaiKhoan}>{a.TenDangNhap} ({a.Email})</option>)}
                   </select>
                 </div>
-              </>
-            ) : (
-              <div>
-                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Chức vụ</label>
-                <input type="text" value={newStaff.ChucVu} onChange={e => setNewStaff({...newStaff, ChucVu: e.target.value})} placeholder="VD: Lễ tân, Y tá..." className="w-full p-2 border dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:border-purple-500 text-slate-900 dark:text-slate-200" />
+                <div>
+                  <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Họ tên</label>
+                  <input type="text" value={activeSubTab === "doctors" ? newDoctor.HoTen : newStaff.HoTen} onChange={e => activeSubTab === "doctors" ? setNewDoctor({...newDoctor, HoTen: e.target.value}) : setNewStaff({...newStaff, HoTen: e.target.value})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-slate-900 dark:text-slate-200 transition-all" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Số điện thoại</label>
+                  <input type="text" value={activeSubTab === "doctors" ? newDoctor.SDT : newStaff.SDT} onChange={e => activeSubTab === "doctors" ? setNewDoctor({...newDoctor, SDT: e.target.value}) : setNewStaff({...newStaff, SDT: e.target.value})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-slate-900 dark:text-slate-200 transition-all" />
+                </div>
+
+                {activeSubTab === "doctors" ? (
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Học vị</label>
+                      <input type="text" value={newDoctor.HocVi} onChange={e => setNewDoctor({...newDoctor, HocVi: e.target.value})} placeholder="VD: ThS.BS, TS.BS..." className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-slate-900 dark:text-slate-200 transition-all" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Chuyên khoa</label>
+                      <select value={newDoctor.MaChuyenKhoa} onChange={e => setNewDoctor({...newDoctor, MaChuyenKhoa: e.target.value})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-slate-900 dark:text-slate-200 transition-all">
+                        <option value="">-- Chọn --</option>
+                        {specialties.map(s => <option key={s.MaChuyenKhoa} value={s.MaChuyenKhoa}>{s.TenChuyenKhoa}</option>)}
+                      </select>
+                    </div>
+                  </>
+                ) : (
+                  <div>
+                    <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Chức vụ</label>
+                    <input type="text" value={newStaff.ChucVu} onChange={e => setNewStaff({...newStaff, ChucVu: e.target.value})} placeholder="VD: Lễ tân, Y tá..." className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 text-slate-900 dark:text-slate-200 transition-all" />
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-          <div className="flex gap-2">
-            <button onClick={editingId ? handleUpdate : handleCreate} className="bg-purple-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-purple-700">Lưu</button>
-            <button onClick={() => { setShowForm(false); setEditingId(null); setNewDoctor({ MaTaiKhoan: "", MaChuyenKhoa: "", HoTen: "", HocVi: "BS", SDT: "" }); setNewStaff({ MaTaiKhoan: "", HoTen: "", ChucVu: "Lễ tân", SDT: "" }); setMsg(""); }} className="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-lg font-medium hover:bg-slate-300 dark:hover:bg-slate-700">Hủy</button>
+              <div className="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+                <button onClick={() => { setShowForm(false); setEditingId(null); setNewDoctor({ MaTaiKhoan: "", MaChuyenKhoa: "", HoTen: "", HocVi: "BS", SDT: "" }); setNewStaff({ MaTaiKhoan: "", HoTen: "", ChucVu: "Lễ tân", SDT: "" }); setMsg(""); }} className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-5 py-2.5 rounded-lg font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">Hủy</button>
+                <button onClick={editingId ? handleUpdate : handleCreate} className="bg-purple-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-purple-700 transition-colors shadow-sm">{editingId ? "Lưu thay đổi" : "Tạo mới"}</button>
+              </div>
+            </div>
           </div>
         </div>
       )}

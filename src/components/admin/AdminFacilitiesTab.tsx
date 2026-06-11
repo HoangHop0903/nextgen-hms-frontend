@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Hospital, Layers, Plus, Edit, CheckCircle2, Ban, Trash2 } from "lucide-react";
+import { Hospital, Layers, Plus, Edit, CheckCircle2, Ban, Trash2, X } from "lucide-react";
 
 export function AdminFacilitiesTab({ token }: { token: string }) {
   const [specialties, setSpecialties] = useState<any[]>([]);
@@ -140,54 +140,79 @@ export function AdminFacilitiesTab({ token }: { token: string }) {
         <button onClick={() => setActiveSubTab("rooms")} className={`px-4 py-2 font-medium border-b-2 transition-colors ${activeSubTab === "rooms" ? "border-blue-500 text-blue-600 dark:text-blue-400" : "border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"}`}>Phòng khám</button>
       </div>
 
-      {/* --- FORM THÊM MỚI / SỬA --- */}
+      {/* --- FORM THÊM MỚI / SỬA (MODAL) --- */}
       {(showForm || editingItem) && (
-        <div className="mb-8 p-6 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
-          <h3 className="font-bold text-slate-700 dark:text-slate-200 mb-4">{editingItem ? "Sửa" : "Thêm"} {activeSubTab === "specialties" ? "Chuyên Khoa" : "Phòng Khám"} {editingItem ? (editingItem.TenChuyenKhoa || editingItem.TenPhong) : "Mới"}</h3>
-          
-          {activeSubTab === "specialties" ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Tên chuyên khoa</label>
-                <input type="text" value={newSpec.TenChuyenKhoa} onChange={e => setNewSpec({...newSpec, TenChuyenKhoa: e.target.value})} className="w-full p-2 border dark:border-slate-700 rounded-lg outline-none focus:border-blue-500 dark:bg-slate-800 dark:text-slate-200" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Mô tả</label>
-                <input type="text" value={newSpec.MoTa} onChange={e => setNewSpec({...newSpec, MoTa: e.target.value})} className="w-full p-2 border dark:border-slate-700 rounded-lg outline-none focus:border-blue-500 dark:bg-slate-800 dark:text-slate-200" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-lg shadow-xl w-full max-w-3xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <div className="flex justify-between items-center p-4 border-b border-slate-100 dark:border-slate-800">
+              <h3 className="font-bold text-lg text-slate-800 dark:text-white">
+                {editingItem ? "Sửa" : "Thêm"} {activeSubTab === "specialties" ? "Chuyên Khoa" : "Phòng Khám"} {editingItem ? (editingItem.TenChuyenKhoa || editingItem.TenPhong) : "Mới"}
+              </h3>
+              <button 
+                onClick={() => { setShowForm(false); setEditingItem(null); setNewSpec({TenChuyenKhoa:'', MoTa:''}); setNewRoom({MaChuyenKhoa:'', TenPhong:'', Tang:1, Khu:'A'}); setMsg(""); }}
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <div className="p-6">
+              {activeSubTab === "specialties" ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Tên chuyên khoa</label>
+                    <input type="text" value={newSpec.TenChuyenKhoa} onChange={e => setNewSpec({...newSpec, TenChuyenKhoa: e.target.value})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-white dark:bg-slate-800 dark:text-slate-200 transition-all" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Mô tả</label>
+                    <input type="text" value={newSpec.MoTa} onChange={e => setNewSpec({...newSpec, MoTa: e.target.value})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-white dark:bg-slate-800 dark:text-slate-200 transition-all" />
+                  </div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-6">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Tên phòng</label>
+                    <input type="text" value={newRoom.TenPhong} onChange={e => setNewRoom({...newRoom, TenPhong: e.target.value})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-white dark:bg-slate-800 dark:text-slate-200 transition-all" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Chuyên khoa</label>
+                    <select value={newRoom.MaChuyenKhoa} onChange={e => setNewRoom({...newRoom, MaChuyenKhoa: e.target.value})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-white dark:bg-slate-800 dark:text-slate-200 transition-all">
+                      <option value="">-- Chọn --</option>
+                      {specialties.map(s => <option key={s.MaChuyenKhoa} value={s.MaChuyenKhoa}>{s.TenChuyenKhoa}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Tầng</label>
+                    <input type="number" value={newRoom.Tang} onChange={e => setNewRoom({...newRoom, Tang: parseInt(e.target.value)})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-white dark:bg-slate-800 dark:text-slate-200 transition-all" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">Khu</label>
+                    <input type="text" value={newRoom.Khu} onChange={e => setNewRoom({...newRoom, Khu: e.target.value})} className="w-full p-2.5 border border-slate-300 dark:border-slate-700 rounded-lg outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-white dark:bg-slate-800 dark:text-slate-200 transition-all" />
+                  </div>
+                </div>
+              )}
+              
+              <div className="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+                <button 
+                  onClick={() => { setShowForm(false); setEditingItem(null); setNewSpec({TenChuyenKhoa:'', MoTa:''}); setNewRoom({MaChuyenKhoa:'', TenPhong:'', Tang:1, Khu:'A'}); setMsg(""); }} 
+                  className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-5 py-2.5 rounded-lg font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                >
+                  Hủy
+                </button>
+                <button 
+                  onClick={() => {
+                    if (editingItem) {
+                      activeSubTab === "specialties" ? handleUpdateSpecialty() : handleUpdateRoom();
+                    } else {
+                      activeSubTab === "specialties" ? handleCreateSpecialty() : handleCreateRoom();
+                    }
+                  }} 
+                  className="bg-blue-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-blue-700 transition-colors shadow-sm"
+                >
+                  {editingItem ? "Lưu thay đổi" : "Tạo mới"}
+                </button>
               </div>
             </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Tên phòng</label>
-                <input type="text" value={newRoom.TenPhong} onChange={e => setNewRoom({...newRoom, TenPhong: e.target.value})} className="w-full p-2 border dark:border-slate-700 rounded-lg outline-none focus:border-blue-500 dark:bg-slate-800 dark:text-slate-200" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Chuyên khoa</label>
-                <select value={newRoom.MaChuyenKhoa} onChange={e => setNewRoom({...newRoom, MaChuyenKhoa: e.target.value})} className="w-full p-2 border dark:border-slate-700 rounded-lg outline-none focus:border-blue-500 dark:bg-slate-800 dark:text-slate-200">
-                  <option value="">-- Chọn --</option>
-                  {specialties.map(s => <option key={s.MaChuyenKhoa} value={s.MaChuyenKhoa}>{s.TenChuyenKhoa}</option>)}
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Tầng</label>
-                <input type="number" value={newRoom.Tang} onChange={e => setNewRoom({...newRoom, Tang: parseInt(e.target.value)})} className="w-full p-2 border dark:border-slate-700 rounded-lg outline-none focus:border-blue-500 dark:bg-slate-800 dark:text-slate-200" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Khu</label>
-                <input type="text" value={newRoom.Khu} onChange={e => setNewRoom({...newRoom, Khu: e.target.value})} className="w-full p-2 border dark:border-slate-700 rounded-lg outline-none focus:border-blue-500 dark:bg-slate-800 dark:text-slate-200" />
-              </div>
-            </div>
-          )}
-          <div className="flex gap-2">
-            <button onClick={() => {
-              if (editingItem) {
-                activeSubTab === "specialties" ? handleUpdateSpecialty() : handleUpdateRoom();
-              } else {
-                activeSubTab === "specialties" ? handleCreateSpecialty() : handleCreateRoom();
-              }
-            }} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700">Lưu thông tin</button>
-            <button onClick={() => { setShowForm(false); setEditingItem(null); setNewSpec({TenChuyenKhoa:'', MoTa:''}); setNewRoom({MaChuyenKhoa:'', TenPhong:'', Tang:1, Khu:'A'}); setMsg(""); }} className="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-lg font-medium hover:bg-slate-300 dark:hover:bg-slate-700">Hủy</button>
           </div>
         </div>
       )}
