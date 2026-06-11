@@ -24,7 +24,7 @@ export function AdminAccountsTab({ token }: { token: string }) {
     fetchAccounts();
   }, []);
 
-  const fetchAccounts = async () => {
+  async function fetchAccounts() {
     try {
       const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/accounts", {
         headers: { Authorization: `Bearer ${token}` }

@@ -44,9 +44,9 @@ export default function AdminDashboard() {
   if (!token) return <div className="p-8 text-center text-slate-500 dark:text-slate-400 font-medium">Đang xác thực quyền Quản trị viên...</div>;
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex transition-colors duration-300">
+    <div className="min-h-[calc(100vh-4rem)] bg-slate-50 dark:bg-slate-950 flex transition-colors duration-300">
       {/* Sidebar */}
-      <div className="w-64 bg-slate-900 dark:bg-slate-950 border-r dark:border-slate-800 text-slate-300 flex flex-col fixed left-0 top-0 h-full shadow-xl z-40 transition-colors duration-300">
+      <div className="w-64 bg-slate-900 dark:bg-slate-950 border-r dark:border-slate-800 text-slate-300 flex flex-col shadow-xl z-10 transition-colors duration-300 flex-shrink-0">
         <div className="p-6 pb-2">
           <div className="flex items-center gap-3 text-white mb-2">
             <div className="bg-indigo-500 p-2 rounded-lg">

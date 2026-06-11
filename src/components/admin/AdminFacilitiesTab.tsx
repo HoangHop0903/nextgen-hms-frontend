@@ -20,7 +20,7 @@ export function AdminFacilitiesTab({ token }: { token: string }) {
     fetchData();
   }, []);
 
-  const fetchData = async () => {
+  async function fetchData() {
     try {
       const res1 = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/specialties");
       const res2 = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/rooms");

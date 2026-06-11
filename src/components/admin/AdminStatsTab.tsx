@@ -14,7 +14,7 @@ export function AdminStatsTab({ token }: { token: string }) {
     fetchRecentBookings();
   }, []);
 
-  const fetchStats = async () => {
+  async function fetchStats() {
     try {
       const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/stats", {
         headers: { Authorization: `Bearer ${token}` }
@@ -25,7 +25,7 @@ export function AdminStatsTab({ token }: { token: string }) {
     }
   };
 
-  const fetchRecentBookings = async () => {
+  async function fetchRecentBookings() {
     try {
       const res = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/bookings", {
         headers: { Authorization: `Bearer ${token}` }

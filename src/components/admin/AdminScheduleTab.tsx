@@ -30,7 +30,7 @@ export function AdminScheduleTab({ token }: { token: string }) {
     fetchData();
   }, []);
 
-  const fetchData = async () => {
+  async function fetchData() {
     try {
       const resDocs = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/patient/doctors");
       setDoctors(resDocs.data);

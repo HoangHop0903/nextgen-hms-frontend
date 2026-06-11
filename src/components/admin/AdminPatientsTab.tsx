@@ -26,7 +26,7 @@ export function AdminPatientsTab({ token }: { token: string }) {
     fetchData();
   }, []);
 
-  const fetchData = async () => {
+  async function fetchData() {
     try {
       const resPat = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/patients", { headers: { Authorization: `Bearer ${token}` } });
       const resBook = await axios.get("https://nextgen-hms-backend-8r2z.onrender.com/api/v1/admin/bookings", { headers: { Authorization: `Bearer ${token}` } });
